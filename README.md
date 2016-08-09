@@ -19,7 +19,7 @@ It is also ~~most likely~~ responsive and resolution independent.
 
 ## Installing
 
-**Needs Godot 2.0 or newer**
+**Needs Godot 2.1 or newer**
 [Godot's Website]
 (http://www.godotengine.com)
 On your project's root, create an "addons" folder
