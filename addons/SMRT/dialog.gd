@@ -203,7 +203,7 @@ func show_text(chapter, dialog, start_at=0):
 				#		to make the effect disapear.
 						else:
 							audio.play("beep_letter")
-							textObj.set_visible_characters(textObj.get_total_character_count())
+						
 						
 						set_size(Vector2(screen_res.size.x,screen_res.size.y/dialog_frame_height))
 						textObj.set_size(get_size())
@@ -243,6 +243,8 @@ func show_text(chapter, dialog, start_at=0):
 							face.set_flip_h(true)
 							face.show()
 						while textObj.get_total_character_count() > textObj.get_visible_characters():
+							if not typewriter:
+								textObj.set_visible_characters(textObj.get_total_character_count())
 							#Play beep sound for each character
 							if beep:
 								audio.set_default_pitch_scale(beep_pitch)
