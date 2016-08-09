@@ -1,0 +1,204 @@
+[gd_scene load_steps=14 format=1]
+
+[ext_resource path="res://addons/SMRT/Message_background.png" type="Texture" id=1]
+[ext_resource path="res://addons/SMRT/dialog.gd" type="Script" id=2]
+[ext_resource path="res://addons/SMRT/font/main_font.tres" type="DynamicFont" id=3]
+[ext_resource path="res://addons/SMRT/next_line.png" type="Texture" id=4]
+[ext_resource path="res://addons/SMRT/faces/dialog.tres" type="SpriteFrames" id=5]
+[ext_resource path="res://addons/SMRT/beep_letter.wav" type="Sample" id=6]
+[ext_resource path="res://addons/SMRT/font/zig_____.ttf" type="DynamicFontData" id=7]
+
+[sub_resource type="Animation" id=1]
+
+resource/name = "idle"
+length = 1.0
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visibility/visible")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 0.5 ), "transitions":FloatArray( 1, 1 ), "update":1, "values":[ true, false ] }
+
+[sub_resource type="Animation" id=2]
+
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ Color( 0, 0, 0, 1 ) ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visibility/self_opacity")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0, 0.6 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 0.0, 1.0 ] }
+
+[sub_resource type="Animation" id=3]
+
+resource/name = "blackScreen off"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 0.5, 0.6 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visibility/self_opacity")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0, 0.6 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 1.0, 0.0 ] }
+
+[sub_resource type="Animation" id=4]
+
+resource/name = "default"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ Color( 1, 1, 1, 1 ) ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visibility/self_opacity")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ 1.0 ] }
+
+[sub_resource type="SampleLibrary" id=5]
+
+samples/beep_letter = { "db":0.0, "pitch":1.0, "sample":ExtResource( 6 ) }
+
+[sub_resource type="DynamicFont" id=6]
+
+font/size = 12
+font/font = ExtResource( 7 )
+
+[node name="dialog" type="Patch9Frame"]
+
+anchor/right = 1
+anchor/bottom = 1
+rect/min_size = Vector2( 320, 64 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 116.0
+margin/right = 704.0
+margin/bottom = 420.0
+texture = ExtResource( 1 )
+patch_margin/left = 4
+patch_margin/top = 4
+patch_margin/right = 3
+patch_margin/bottom = 4
+script/script = ExtResource( 2 )
+__meta__ = { "__editor_plugin_screen__":"2D" }
+language = "res://addons/SMRT/example.lan"
+beep_WAV = null
+font = ExtResource( 3 )
+font_size = 32
+face_sprites = null
+next_dialog_texture = null
+dialog_frame_height = 4
+
+[node name="nextLine" type="TextureFrame" parent="."]
+
+anchor/left = 1
+anchor/top = 1
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 18.0
+margin/top = 14.0
+margin/right = 2.0
+margin/bottom = -2.0
+texture = ExtResource( 4 )
+stretch_mode = 0
+
+[node name="animation" type="AnimationPlayer" parent="nextLine"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/idle = SubResource( 1 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="Timer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 0.05
+one_shot = false
+autostart = false
+
+[node name="face" type="AnimatedSprite" parent="."]
+
+transform/pos = Vector2( 3, 13 )
+frames = ExtResource( 5 )
+animation = "default"
+frame = 2
+centered = false
+
+[node name="anim" type="AnimationPlayer" parent="."]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/blackScreen = SubResource( 2 )
+"anims/blackScreen off" = SubResource( 3 )
+anims/default = SubResource( 4 )
+"next/blackScreen off" = ""
+next/default = ""
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="SamplePlayer" type="SamplePlayer" parent="."]
+
+config/polyphony = 1
+config/samples = SubResource( 5 )
+default/volume_db = -18.0
+default/pitch_scale = 1.0
+default/pan = 0.0
+default/depth = 0.0
+default/height = 0.0
+default/filter/type = 0
+default/filter/cutoff = 5000.0
+default/filter/resonance = 1.0
+default/filter/gain = 1.0
+default/reverb_room = 2
+default/reverb_send = 0.0
+default/chorus_send = 0.0
+
+[node name="text_display" type="RichTextLabel" parent="."]
+
+anchor/right = 1
+anchor/bottom = 1
+rect/min_size = Vector2( 216, 48 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 16.0
+margin/top = 8.0
+margin/right = 16.0
+margin/bottom = 8.0
+custom_fonts/normal_font = SubResource( 6 )
+custom_colors/default_color = Color( 1, 1, 1, 1 )
+bbcode/enabled = true
+bbcode/bbcode = "ABRAKADABRA"
+visible_characters = -1
+
+
