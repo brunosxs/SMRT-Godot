@@ -1,0 +1,18 @@
+[gd_scene format=1]
+
+[node name="ConfirmationDialog" type="ConfirmationDialog"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 23.0
+margin/right = 133.0
+margin/bottom = 79.0
+popup/exclusive = false
+window/title = "Hey, listen!"
+dialog/text = "Remove\?"
+dialog/hide_on_ok = true
+
+
