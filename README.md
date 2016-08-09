@@ -4,6 +4,7 @@ Consider making a donation to support my work:
 
 
 # SMRT-Godot
+
 **SMRT-Godot**: System for Multi Rethorical Texts for Godot is a dialog system with a fancy name.
 It is a port of a dialog system I made in Construct2.
 This is the very first system I created for my game in Godot, so it shows in the code, still I thought it was worth sharing it.
@@ -29,7 +30,7 @@ Open your project in Godot go to `Project Settings`, click on the `Plugins` tab 
 ## How does it work?
 
 [See the wiki]
-(/wiki)
+(https://github.com/brunosxs/SMRT-Godot/wiki)
 
 ## Special Thanks
 
@@ -41,4 +42,6 @@ Open your project in Godot go to `Project Settings`, click on the `Plugins` tab 
 ## Licensed under MIT
 
 [![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=E8MZDXACW43A2)
+
+
 **Please, consider donating to support my work on other projects, thanks :)**
