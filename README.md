@@ -25,9 +25,10 @@ It is also ~~most likely~~ responsive and resolution independent.
 (http://www.godotengine.com)
 
 On your project's root, create an "addons" folder
+
 Copy the contents of `/addons` to your project's `/addons` folder
 
-Open your project in Godot go to `Project Settings`, click on the `Plugins` tab and enable SMRT
+Open your project in Godot, go to `Project Settings`, click on the `Plugins` tab and enable SMRT
 
 ## How does it work?
 
