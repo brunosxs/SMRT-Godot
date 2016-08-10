@@ -17,10 +17,33 @@ scale = Vector2( 1, 1 )
 
 [node name="dialog" parent="CanvasLayer" instance=ExtResource( 2 )]
 
-visibility/visible = false
-margin/top = 0.0
-margin/right = -256.0
-margin/bottom = 0.0
+[node name="char" parent="." instance=ExtResource( 3 )]
+
+is_player = true
+
+[node name="Camera2D" type="Camera2D" parent="char"]
+
+anchor_mode = 1
+rotating = false
+current = true
+zoom = Vector2( 0.5, 0.5 )
+limit/left = -10000000
+limit/top = -10000000
+limit/right = 10000000
+limit/bottom = 10000000
+drag_margin/h_enabled = true
+drag_margin/v_enabled = true
+smoothing/enable = false
+smoothing/speed = 5.0
+drag_margin/left = 0.2
+drag_margin/top = 0.2
+drag_margin/right = 0.2
+drag_margin/bottom = 0.2
+
+[node name="char1" parent="." instance=ExtResource( 3 )]
+
+transform/pos = Vector2( -10, 80 )
+is_player = false
 
 [node name="VButtonArray" type="VButtonArray" parent="."]
 
@@ -30,25 +53,15 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 150.0
-margin/bottom = 52.0
+margin/right = 121.0
+margin/bottom = 40.0
 button/count = 2
-button/min_button_size = 14.0
+button/min_button_size = -1.0
 button/align = 0
-button/0/text = "Example 1"
+button/0/text = "1"
 button/0/icon = null
-button/1/text = "Another example"
+button/1/text = "2"
 button/1/icon = null
 button/selected = 0
-
-[node name="char" parent="." instance=ExtResource( 3 )]
-
-transform/pos = Vector2( -20, -20 )
-is_player = true
-
-[node name="char 2" parent="." instance=ExtResource( 3 )]
-
-transform/pos = Vector2( 0, 62 )
-is_player = false
 
 
