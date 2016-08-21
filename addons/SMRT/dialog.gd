@@ -10,11 +10,11 @@ var MIDDLE
 var BOTTOM
 
 # EXPORTED VARS =====>
-export (Sample) var beep_WAV
+export (Sample) var beep_WAV = preload("res://addons/SMRT/beep_letter.wav")
 export (DynamicFont) var font = preload("res://addons/SMRT/font/main_font.tres")
 export (int) var font_size = 32
-export (SpriteFrames) var face_sprites
-export (Texture) var next_dialog_texture
+export (SpriteFrames) var face_sprites = preload("res://addons/SMRT/faces/dialog.tres")
+export (Texture) var next_dialog_texture = preload("res://addons/SMRT/next_line.png")
 export var dialog_frame_height = 4
 #Speed of the typewriter effect. If there is no value given in the message,
 #it defaults to this.
@@ -65,6 +65,29 @@ onready var anim = get_node("anim")
 
 func _ready():
 	language = load_language(language)
+	
+	#defaults
+	if beep_WAV == null:
+		print(audio.get_sample_library().get_sample_list())
+		preload("res://addons/SMRT/beep_letter.wav")
+		print("NULL BEEP WAV")
+	var beep = SampleLibrary.new()
+	beep.add_sample("beep_letter", beep_WAV)
+	audio.set_sample_library(beep)
+	print("beep letter: ",audio.get_sample_library().get_sample_list())
+	print(font, typeof(font))
+	if font == null:
+		load("res://addons/SMRT/font/main_font.tres")
+		print("FONT IS LOADED FROM DEFAULT")
+	if face_sprites == null:
+		preload("res://addons/SMRT/faces/dialog.tres")
+		print("FACE SPRITES", face)
+		print(face.get_sprite_frames().has_animation("default"))
+	face.set_sprite_frames(face_sprites)
+	if next_dialog_texture == null:
+		preload("res://addons/SMRT/next_line.png")
+	nextLine.set_texture(next_dialog_texture)
+
 #	SIGNALS:
 	hide()
 	#Reset textObj	
@@ -110,6 +133,7 @@ func store_margins():
 	dimensions.text_margin.bottom = textObj.get_margin(3)
 
 func show_text(chapter, dialog, start_at=0):
+	
 	
 	textObj.set_bbcode("")
 	if start_at == null:
@@ -177,7 +201,7 @@ func show_text(chapter, dialog, start_at=0):
 							side = dialog_array[start_at].face_position
 					
 							face.show()
-							texture_width = face.get_sprite_frames().get_frame(face.get_animation(), face.get_frame()).get_width()			
+							texture_width = face.get_sprite_frames().get_frame(face.get_animation(), face.get_frame()).get_width()
 							print("TEXTURE WIDTH IS: ",texture_width)
 				#		Side of the dialog to display the face
 				#		RESETING THE DIALOG	
@@ -248,7 +272,7 @@ func show_text(chapter, dialog, start_at=0):
 							#Play beep sound for each character
 							if beep:
 								audio.set_default_pitch_scale(beep_pitch)
-								audio.play("beep_letter")	
+								audio.play("beep_letter")
 								#audio.set_param(1,old_beep_pitch)
 							textObj.set_visible_characters(textObj.get_visible_characters()+ 1)
 							timer.set_wait_time(speed)
