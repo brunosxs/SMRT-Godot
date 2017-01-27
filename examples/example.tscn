@@ -1,14 +1,9 @@
-[gd_scene load_steps=7 format=1]
+[gd_scene load_steps=5 format=1]
 
 [ext_resource path="res://examples/example.gd" type="Script" id=1]
 [ext_resource path="res://addons/SMRT/dialog.tscn" type="PackedScene" id=2]
 [ext_resource path="res://examples/click.wav" type="Sample" id=3]
-[ext_resource path="res://addons/SMRT/faces/Linux-Mario_128x128.png-128x128.png" type="Texture" id=4]
-[ext_resource path="res://examples/interact/char.tscn" type="PackedScene" id=5]
-
-[sub_resource type="SpriteFrames" id=1]
-
-animations = [ { "frames":[ ExtResource( 4 ), ExtResource( 4 ), ExtResource( 4 ) ], "loop":true, "name":"default", "speed":5.0 } ]
+[ext_resource path="res://examples/interact/char.tscn" type="PackedScene" id=4]
 
 [node name="Node2D" type="Node2D"]
 
@@ -24,9 +19,8 @@ scale = Vector2( 1, 1 )
 [node name="dialog" parent="CanvasLayer" instance=ExtResource( 2 )]
 
 beep_WAV = ExtResource( 3 )
-face_sprites = SubResource( 1 )
 
-[node name="char" parent="." instance=ExtResource( 5 )]
+[node name="char" parent="." instance=ExtResource( 4 )]
 
 is_player = true
 
@@ -49,7 +43,7 @@ drag_margin/top = 0.2
 drag_margin/right = 0.2
 drag_margin/bottom = 0.2
 
-[node name="char1" parent="." instance=ExtResource( 5 )]
+[node name="char1" parent="." instance=ExtResource( 4 )]
 
 transform/pos = Vector2( -10, 80 )
 is_player = false
@@ -64,12 +58,15 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 121.0
 margin/bottom = 40.0
+flat = false
 button/count = 2
 button/min_button_size = -1.0
 button/align = 0
 button/0/text = "1"
+button/0/tooltip = ""
 button/0/icon = null
 button/1/text = "2"
+button/1/tooltip = ""
 button/1/icon = null
 button/selected = 0
 
