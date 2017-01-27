@@ -36,7 +36,7 @@ func contact(body):
 			SMRT.show_text(body.chapter, body.dialog, body.start_at)
 #		 	This one is a very simple example... wait until SMRT
 #			tells the dialog is over before connecting to manage the body_exit signal	
-			yield(SMRT, "finished_dialog")
+			yield(SMRT, "finished")
 			area.connect("body_exit", self, "no_contact")
 	
 func no_contact(body):
