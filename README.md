@@ -13,11 +13,10 @@ I'd really love to see any project or use that you made out of this awfully-code
 
 ## What is SMRT-Godot?
 
-[[See it in action]]
-(https://www.youtube.com/watch?v=msL8dBuSBm0&feature=youtu.be)
+[![See it in action](https://img.youtube.com/vi/msL8dBuSBm0/0.jpg)](https://www.youtube.com/watch?v=msL8dBuSBm0)
 
 
-SMRT-Godot is a dialog system + editor created for my needs while making a game. It gives a new approach to multi-language support for the game/project, by using simple JSON for storing information that is interpreted by the dialog system. 
+SMRT-Godot is a dialog system + editor created for my needs while making a game. It gives a new approach to multi-language support for the game/project, by using simple JSON for storing information that is interpreted by the dialog system.
 
 It is also ~~most likely~~ responsive and resolution independent.
 
