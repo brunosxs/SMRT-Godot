@@ -140,9 +140,9 @@ func show_text(chapter, dialog, start_at=0):
 		start_at = 0
 	var dialog_array
 	if chapter =="single_text":
+		info = {chapter = chapter, dialog = null, last_text_index = null, total_text = 1, answer = null}
 		dialog_array = dialog
-		print(dialog_array)
-	#	Checks if the value sent is an array or a single string to show.
+		position = 1
 	if typeof(dialog_array) == TYPE_STRING:
 		print("dialog was a single line of string")
 		var single_text = {"text": dialog_array}
@@ -303,11 +303,6 @@ func show_text(chapter, dialog, start_at=0):
 	emit_signal("finished")
 	beep_pitch = 1.0
 	self.hide()
-	
-	
-	
-	
-
 
 func question(answer_array):
 	print("STARTED QUESTION FUNCTION")
