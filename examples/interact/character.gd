@@ -40,7 +40,7 @@ func contact(body):
 			area.connect("body_exit", self, "no_contact")
 	
 func no_contact(body):
-	if body extends load("res://examples/interact/character.gd"):
+	if body extends get_script():
 		if is_player and not can_talk:
 			can_talk = true
 			area.disconnect("body_exit", self, "no_contact")
@@ -54,4 +54,4 @@ func no_contact(body):
 # With this info, it is possible to have finner control and make complex
 # interactions between the world and the dialog.
 func do_things(info):
-	print(":D")
+	pass
