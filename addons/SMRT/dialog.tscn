@@ -8,7 +8,7 @@
 [ext_resource path="res://addons/SMRT/next_line.png" type="Texture" id=6]
 [ext_resource path="res://addons/SMRT/font/zig_____.ttf" type="DynamicFontData" id=7]
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 
 length = 1.0
 loop = true
@@ -19,7 +19,7 @@ tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = { "times":FloatArray( 0, 0.5 ), "transitions":FloatArray( 1, 1 ), "update":1, "values":[ true, false ] }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 
 length = 1.0
 loop = false
@@ -35,7 +35,7 @@ tracks/1/interp = 1
 tracks/1/imported = false
 tracks/1/keys = { "times":FloatArray( 0, 0.6 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 0.0, 1.0 ] }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 
 length = 1.0
 loop = false
@@ -51,7 +51,7 @@ tracks/1/interp = 1
 tracks/1/imported = false
 tracks/1/keys = { "times":FloatArray( 0, 0.6 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 1.0, 0.0 ] }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 
 length = 1.0
 loop = false
@@ -67,11 +67,11 @@ tracks/1/interp = 1
 tracks/1/imported = false
 tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ 1.0 ] }
 
-[sub_resource type="SampleLibrary" id=6]
+[sub_resource type="SampleLibrary" id=5]
 
 samples/beep_letter = { "db":0.0, "pitch":1.0, "sample":ExtResource( 3 ) }
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=6]
 
 font/size = 12
 font/use_mipmaps = false
@@ -128,7 +128,7 @@ stretch_mode = 0
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/idle = SubResource( 2 )
+anims/idle = SubResource( 1 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -154,11 +154,9 @@ centered = false
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/blackScreen = SubResource( 3 )
-"anims/blackScreen off" = SubResource( 4 )
-anims/default = SubResource( 5 )
-"next/blackScreen off" = ""
-next/default = ""
+anims/blackScreen = SubResource( 2 )
+"anims/blackScreen off" = SubResource( 3 )
+anims/default = SubResource( 4 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -167,7 +165,7 @@ autoplay = ""
 [node name="SamplePlayer" type="SamplePlayer" parent="."]
 
 config/polyphony = 1
-config/samples = SubResource( 6 )
+config/samples = SubResource( 5 )
 default/volume_db = -18.0
 default/pitch_scale = 1.0
 default/pan = 0.0
@@ -194,7 +192,7 @@ margin/left = 16.0
 margin/top = 8.0
 margin/right = 16.0
 margin/bottom = 8.0
-custom_fonts/normal_font = SubResource( 7 )
+custom_fonts/normal_font = SubResource( 6 )
 custom_colors/default_color = Color( 1, 1, 1, 1 )
 bbcode/enabled = true
 bbcode/bbcode = "ABRAKADABRA"
