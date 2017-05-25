@@ -339,3 +339,6 @@ func _input(event):
 		emit_signal("dialog_control", info)
 		emit_signal("answer_selected")
 		info.answer = null
+
+func stop():
+	on_dialog = false
