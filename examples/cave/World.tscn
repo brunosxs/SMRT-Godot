@@ -34,6 +34,7 @@ patch_margin/top = 12
 patch_margin/right = 12
 patch_margin/bottom = 12
 language = "res://examples/interact/another_example.lan"
+show_debug_messages = false
 
 [node name="TileMap" type="TileMap" parent="."]
 
