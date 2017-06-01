@@ -55,7 +55,7 @@ size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 18.0
 margin/right = 750.0
-margin/bottom = 54.0
+margin/bottom = 52.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer"]
 
@@ -66,7 +66,7 @@ size_flags/vertical = 2
 margin/left = 7.0
 margin/top = 7.0
 margin/right = 743.0
-margin/bottom = 29.0
+margin/bottom = 27.0
 alignment = 0
 
 [node name="info" type="Label" parent="VBoxContainer/PanelContainer/HBoxContainer"]
@@ -76,9 +76,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = 0.0
-margin/top = 4.0
+margin/top = 3.0
 margin/right = 74.0
-margin/bottom = 18.0
+margin/bottom = 17.0
 text = "File loaded:"
 align = 1
 percent_visible = 1.0
@@ -93,18 +93,23 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 78.0
 margin/top = 0.0
-margin/right = 307.0
-margin/bottom = 22.0
+margin/right = 255.0
+margin/bottom = 20.0
+flat = false
 button/count = 4
 button/min_button_size = -1.0
 button/align = 0
 button/0/text = "New"
+button/0/tooltip = ""
 button/0/icon = null
 button/1/text = "Load"
+button/1/tooltip = ""
 button/1/icon = null
 button/2/text = "Save"
+button/2/tooltip = ""
 button/2/icon = null
 button/3/text = "Help"
+button/3/tooltip = ""
 button/3/icon = null
 button/selected = 0
 
@@ -115,9 +120,9 @@ focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
-margin/top = 58.0
+margin/top = 56.0
 margin/right = 750.0
-margin/bottom = 342.0
+margin/bottom = 337.0
 alignment = 0
 
 [node name="ChapterContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
@@ -129,8 +134,8 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 117.0
-margin/bottom = 284.0
+margin/right = 114.0
+margin/bottom = 281.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/ChapterContainer"]
 
@@ -140,8 +145,8 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 7.0
 margin/top = 7.0
-margin/right = 110.0
-margin/bottom = 277.0
+margin/right = 107.0
+margin/bottom = 274.0
 alignment = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/ChapterContainer/VBoxContainer"]
@@ -153,7 +158,7 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 103.0
+margin/right = 100.0
 margin/bottom = 14.0
 alignment = 0
 
@@ -181,7 +186,7 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 18.0
-margin/right = 103.0
+margin/right = 100.0
 margin/bottom = 218.0
 
 [node name="HButtonArray" type="HButtonArray" parent="VBoxContainer/HBoxContainer/ChapterContainer/VBoxContainer"]
@@ -192,14 +197,17 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 222.0
-margin/right = 103.0
-margin/bottom = 244.0
+margin/right = 100.0
+margin/bottom = 242.0
+flat = false
 button/count = 2
 button/min_button_size = 1.0
 button/align = 0
 button/0/text = "Add"
+button/0/tooltip = ""
 button/0/icon = null
 button/1/text = "Dup"
+button/1/tooltip = ""
 button/1/icon = null
 button/selected = 0
 
@@ -210,15 +218,18 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
-margin/top = 248.0
-margin/right = 103.0
-margin/bottom = 270.0
+margin/top = 246.0
+margin/right = 100.0
+margin/bottom = 266.0
+flat = false
 button/count = 2
 button/min_button_size = 1.0
 button/align = 0
 button/0/text = "Del"
+button/0/tooltip = ""
 button/0/icon = null
 button/1/text = "Edit"
+button/1/tooltip = ""
 button/1/icon = null
 button/selected = 0
 
@@ -229,10 +240,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 121.0
+margin/left = 118.0
 margin/top = 0.0
-margin/right = 238.0
-margin/bottom = 284.0
+margin/right = 232.0
+margin/bottom = 281.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/DialogContainer"]
 
@@ -242,8 +253,8 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 7.0
 margin/top = 7.0
-margin/right = 110.0
-margin/bottom = 277.0
+margin/right = 107.0
+margin/bottom = 274.0
 alignment = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/DialogContainer/VBoxContainer"]
@@ -255,7 +266,7 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 103.0
+margin/right = 100.0
 margin/bottom = 14.0
 alignment = 0
 
@@ -283,7 +294,7 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 18.0
-margin/right = 103.0
+margin/right = 100.0
 margin/bottom = 218.0
 
 [node name="HButtonArray" type="HButtonArray" parent="VBoxContainer/HBoxContainer/DialogContainer/VBoxContainer"]
@@ -294,14 +305,17 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 222.0
-margin/right = 103.0
-margin/bottom = 244.0
+margin/right = 100.0
+margin/bottom = 242.0
+flat = false
 button/count = 2
 button/min_button_size = 1.0
 button/align = 0
 button/0/text = "Add"
+button/0/tooltip = ""
 button/0/icon = null
 button/1/text = "Dup"
+button/1/tooltip = ""
 button/1/icon = null
 button/selected = 0
 
@@ -312,15 +326,18 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
-margin/top = 248.0
-margin/right = 103.0
-margin/bottom = 270.0
+margin/top = 246.0
+margin/right = 100.0
+margin/bottom = 266.0
+flat = false
 button/count = 2
 button/min_button_size = 1.0
 button/align = 0
 button/0/text = "Del"
+button/0/tooltip = ""
 button/0/icon = null
 button/1/text = "Edit"
+button/1/tooltip = ""
 button/1/icon = null
 button/selected = 0
 
@@ -332,10 +349,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 242.0
+margin/left = 236.0
 margin/top = 0.0
-margin/right = 411.0
-margin/bottom = 284.0
+margin/right = 381.0
+margin/bottom = 281.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/TextContainer"]
 
@@ -345,8 +362,8 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 7.0
 margin/top = 7.0
-margin/right = 162.0
-margin/bottom = 277.0
+margin/right = 138.0
+margin/bottom = 274.0
 alignment = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/TextContainer/VBoxContainer"]
@@ -357,7 +374,7 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 155.0
+margin/right = 131.0
 margin/bottom = 14.0
 alignment = 0
 
@@ -385,7 +402,7 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 18.0
-margin/right = 155.0
+margin/right = 131.0
 margin/bottom = 218.0
 
 [node name="HButtonArray" type="HButtonArray" parent="VBoxContainer/HBoxContainer/TextContainer/VBoxContainer"]
@@ -396,16 +413,20 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 222.0
-margin/right = 155.0
-margin/bottom = 244.0
+margin/right = 131.0
+margin/bottom = 242.0
+flat = false
 button/count = 3
 button/min_button_size = 1.0
 button/align = 1
 button/0/text = "Add"
+button/0/tooltip = ""
 button/0/icon = null
 button/1/text = "Dup"
+button/1/tooltip = ""
 button/1/icon = null
 button/2/text = "Del"
+button/2/tooltip = ""
 button/2/icon = null
 button/selected = 0
 
@@ -416,15 +437,18 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
-margin/top = 248.0
-margin/right = 155.0
-margin/bottom = 270.0
+margin/top = 246.0
+margin/right = 131.0
+margin/bottom = 266.0
+flat = false
 button/count = 2
 button/min_button_size = -1.0
 button/align = 1
 button/0/text = "/\\"
+button/0/tooltip = ""
 button/0/icon = null
 button/1/text = "\\/"
+button/1/tooltip = ""
 button/1/icon = null
 button/selected = 0
 
@@ -434,10 +458,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 415.0
+margin/left = 385.0
 margin/top = 0.0
-margin/right = 418.0
-margin/bottom = 284.0
+margin/right = 388.0
+margin/bottom = 281.0
 
 [node name="GridContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer"]
 
@@ -445,10 +469,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 422.0
+margin/left = 392.0
 margin/top = 0.0
-margin/right = 706.0
-margin/bottom = 284.0
+margin/right = 676.0
+margin/bottom = 281.0
 columns = 2
 
 [node name="FramePosition1" type="PanelContainer" parent="VBoxContainer/HBoxContainer/GridContainer"]
@@ -733,9 +757,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
-margin/top = 346.0
+margin/top = 341.0
 margin/right = 750.0
-margin/bottom = 478.0
+margin/bottom = 473.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TextPanel"]
 
@@ -799,6 +823,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 367.0
 margin/bottom = 100.0
+syntax_highlighting = false
 show_line_numbers = false
 highlight_all_occurrences = false
 caret/block_caret = false
@@ -813,12 +838,14 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 371.0
 margin/top = 0.0
-margin/right = 423.0
+margin/right = 413.0
 margin/bottom = 100.0
+flat = false
 button/count = 1
 button/min_button_size = 22.0
 button/align = 1
 button/0/text = "Next"
+button/0/tooltip = ""
 button/0/icon = null
 button/selected = 0
 
@@ -829,9 +856,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
-margin/top = 482.0
+margin/top = 477.0
 margin/right = 750.0
-margin/bottom = 504.0
+margin/bottom = 499.0
 toggle_mode = true
 enabled_focus_mode = 2
 shortcut = null
@@ -846,9 +873,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
-margin/top = 508.0
+margin/top = 503.0
 margin/right = 750.0
-margin/bottom = 592.0
+margin/bottom = 587.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/question"]
 
@@ -933,6 +960,7 @@ margin/top = 18.0
 margin/right = 97.0
 margin/bottom = 42.0
 placeholder/alpha = 0.6
+expand_to_len = false
 focus_mode = 2
 caret/caret_blink = false
 caret/caret_blink_speed = 0.65
@@ -975,6 +1003,7 @@ margin/top = 18.0
 margin/right = 97.0
 margin/bottom = 42.0
 placeholder/alpha = 0.6
+expand_to_len = false
 focus_mode = 2
 caret/caret_blink = false
 caret/caret_blink_speed = 0.65
@@ -1017,6 +1046,7 @@ margin/top = 18.0
 margin/right = 97.0
 margin/bottom = 42.0
 placeholder/alpha = 0.6
+expand_to_len = false
 focus_mode = 2
 caret/caret_blink = false
 caret/caret_blink_speed = 0.65
@@ -1059,6 +1089,7 @@ margin/top = 18.0
 margin/right = 97.0
 margin/bottom = 42.0
 placeholder/alpha = 0.6
+expand_to_len = false
 focus_mode = 2
 caret/caret_blink = false
 caret/caret_blink_speed = 0.65
