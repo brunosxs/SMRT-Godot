@@ -1,6 +1,7 @@
 extends Patch9Frame
 
 #Declared variables:
+
 export (String, FILE, "*.lan") var language = "res://addons/SMRT/example.lan"
 var dialogs = []
 var speech_bubble
@@ -16,6 +17,9 @@ export (int) var font_size = 32
 export (SpriteFrames) var face_sprites = preload("res://addons/SMRT/faces/dialog.tres")
 export (Texture) var next_dialog_texture = preload("res://addons/SMRT/next_line.png")
 export var dialog_frame_height = 4
+
+#DEBUG MESSAGES
+export var show_debug_messages = false
 #Speed of the typewriter effect. If there is no value given in the message,
 #it defaults to this.
 var speed = float(.05)
@@ -68,15 +72,20 @@ func _ready():
 	
 	#defaults
 	if beep_WAV == null:
-		
+		if show_debug_messages:
+			print("Beep sound file not found, loading default")
 		preload("res://addons/SMRT/beep_letter.wav")
 	var beep = SampleLibrary.new()
 	beep.add_sample("beep_letter", beep_WAV)
 	audio.set_sample_library(beep)
 	if font == null:
+		if show_debug_messages:
+			print("Font file not found, loading default")
 		load("res://addons/SMRT/font/main_font.tres")
 		
 	if face_sprites == null:
+		if show_debug_messages:
+			print("Face sprites file not found, loading default")
 		preload("res://addons/SMRT/faces/dialog.tres")
 		
 	face.set_sprite_frames(face_sprites)
@@ -94,6 +103,8 @@ func _ready():
 	store_margins()
 	
 func reset():
+	if show_debug_messages:
+		print("reseting the dialog system")
 	finished = false
 	on_dialog = false
 	text = null
@@ -101,7 +112,6 @@ func reset():
 	side = null
 	answer_number = null
 	textObj.set_bbcode("")
-	print("reseting smrt")
 	dialog_array = []
 	
 	
@@ -111,13 +121,15 @@ func load_language(lang_file="res://addons/SMRT/example.lan"):
 		lang_file = "res://addons/SMRT/example.lan"
 	#Check for and load the language file
 	if (file.open(lang_file,File.READ) == OK):
+		if show_debug_messages:
+			print("Found dialog file" , lang_file)
 		var temp_lang = file.get_as_text()
 		var dictionary = {}
 		dictionary.parse_json(temp_lang)
-		print("LANGUAGE FILE WAS JUST LOADED")
 		return dictionary
 	else:
-		print("Error loading the language file")
+		if show_debug_messages:
+			print("Error loading dialog file")
 		var temp_lang = {"Problem":{"Debug":[{"beep_pitch":1, "face_position":1, "beep":true, "text":"Error loading the language file!", "enable_question":false, "typewriter_speed":0.05, "typewriter":true, "frame_position":1, "face_frame":1}]}}
 		var dictionary = {}
 		dictionary.parse_json(temp_lang)
@@ -141,7 +153,6 @@ func store_margins():
 func show_text(chapter, dialog, start_at = 0):
 	textObj.set_bbcode("")
 	text=""
-	print("STARTING TO SHOW TEXT")
 	if start_at == null:      
 		start_at = 0
 	if chapter =="single_text":
@@ -149,7 +160,6 @@ func show_text(chapter, dialog, start_at = 0):
 		dialog_array = dialog
 		position = 1
 	if typeof(dialog_array) == TYPE_STRING:
-		print("dialog was a single line of string")
 		var single_text = {"text": dialog_array}
 		dialog_array = []
 		dialog_array.append(single_text)
@@ -160,7 +170,8 @@ func show_text(chapter, dialog, start_at = 0):
 		else:
 			
 			if current_chapter.has(dialog):
-				print("found dialog ", dialog)
+				if show_debug_messages:
+					print("found dialog ", dialog)
 			
 				dialog_array = current_chapter[dialog]
 				if not dialog_array == null and typeof(dialogs) == TYPE_ARRAY:
@@ -190,7 +201,8 @@ func show_text(chapter, dialog, start_at = 0):
 		nextLine.hide()
 #		Gets the values to be reseted at the end of the loop
 		# ERROR CHECKING:
-		print("I STARTED TO RUN ", start_at)
+		if show_debug_messages:
+			print("STARTED DIALOG AT ", start_at)
 		if dialog_array[start_at].has("beep"):
 			beep = dialog_array[start_at].beep
 		if dialog_array[start_at].has("beep_pitch"):
@@ -277,17 +289,19 @@ func show_text(chapter, dialog, start_at = 0):
 				textObj.set_visible_characters(textObj.get_total_character_count())
 			#Play beep sound for each character
 			if beep:
+				if show_debug_messages:
+					print("beep pitch = ", beep_pitch)
 				audio.set_default_pitch_scale(beep_pitch)
 				audio.play("beep_letter")
 				#audio.set_param(1,old_beep_pitch)
 			textObj.set_visible_characters(textObj.get_visible_characters()+ 1)
 			timer.set_wait_time(speed)
-			#print("Value of characters visible: ",textObj.get_visible_characters())
 			timer.start()
 			yield(timer, "timeout") #So, it will only happen if it is false at first
 		if textObj.get_total_character_count() <= textObj.get_visible_characters():# and not finished and start_at < dialog_array.size()-1:
 			get_node("nextLine/animation").play("idle")
-			print("Finished text display")
+			if show_debug_messages:
+				print("Finished text display")
 			finished = true
 			yield(get_tree(), "idle_frame")
 			info.last_text_index = start_at
@@ -303,12 +317,15 @@ func show_text(chapter, dialog, start_at = 0):
 	on_dialog = false
 # Emits a signal when all the dialogs are over.
 # Useful to know exactly when it is possible to free the resources it holds.
+	if show_debug_messages:
+		print("SMRT finished displaying all the dialog")
 	emit_signal("finished")
 	beep_pitch = 1.0
 	self.hide()
 
 func question(answer_array):
-	print("STARTED QUESTION FUNCTION")
+	if show_debug_messages:
+		print("STARTED QUESTION FUNCTION")
 	btn_answers = HButtonArray.new()
 	btn_answers.add_font_override("font", font)
 	btn_answers.add_style_override("normal", StyleBoxEmpty.new())
@@ -325,6 +342,8 @@ func question(answer_array):
 		btn_answers.add_button(answer)
 
 func selected_answer(btn):
+	if show_debug_messages:
+		print("Answer selected: ", btn)
 	answer_number = btn
 	
 func _input(event):
@@ -346,7 +365,8 @@ func _input(event):
 	
 
 func stop():
-	print("STOPPING SMRT")
+	if show_debug_messages:
+		print("Stopping smrt godot")
 	if btn_answers != null:
 		btn_answers.queue_free()
 	reset()
