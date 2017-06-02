@@ -1,6 +1,7 @@
 extends Patch9Frame
 
 #Declared variables:
+
 export (String, FILE, "*.lan") var language = "res://addons/SMRT/example.lan"
 var dialogs = []
 var speech_bubble
@@ -16,6 +17,9 @@ export (int) var font_size = 32
 export (SpriteFrames) var face_sprites = preload("res://addons/SMRT/faces/dialog.tres")
 export (Texture) var next_dialog_texture = preload("res://addons/SMRT/next_line.png")
 export var dialog_frame_height = 4
+
+#DEBUG MESSAGES
+export var show_debug_messages = false
 #Speed of the typewriter effect. If there is no value given in the message,
 #it defaults to this.
 var speed = float(.05)
@@ -27,12 +31,12 @@ signal dialog_control(information)
 #It is a string that is interpreted: "top", "middle" and "down"
 #Thinking of making some global constants and change it to vector2 values
 var position
+
 #If true, a beep sound will play for each character, excluding " "
 var beep = true
 # The pitch is a float that enables the beep to sound lower or higher to
 # create variations for characters.
 var beep_pitch = float(1.0)
-#
 var finished = false
 var on_dialog = false
 var text
@@ -40,10 +44,10 @@ var typewriter = true
 var enable_question
 var answers
 var btn_answers
+var answer_number
 var black_screen
 var texture_width
-
-
+var dialog_array
 #THE NEXT VAR IS SENT THROUGH THE SIGNALS dialog_control 
 #AND answer_selected
 var info = {chapter = null, dialog = null, last_text_index = null, total_text = null, answer = null}
@@ -68,21 +72,22 @@ func _ready():
 	
 	#defaults
 	if beep_WAV == null:
-		print(audio.get_sample_library().get_sample_list())
+		if show_debug_messages:
+			print("Beep sound file not found, loading default")
 		preload("res://addons/SMRT/beep_letter.wav")
-		print("NULL BEEP WAV")
 	var beep = SampleLibrary.new()
 	beep.add_sample("beep_letter", beep_WAV)
 	audio.set_sample_library(beep)
-	print("beep letter: ",audio.get_sample_library().get_sample_list())
-	print(font, typeof(font))
 	if font == null:
+		if show_debug_messages:
+			print("Font file not found, loading default")
 		load("res://addons/SMRT/font/main_font.tres")
-		print("FONT IS LOADED FROM DEFAULT")
+		
 	if face_sprites == null:
+		if show_debug_messages:
+			print("Face sprites file not found, loading default")
 		preload("res://addons/SMRT/faces/dialog.tres")
-		print("FACE SPRITES", face)
-		print(face.get_sprite_frames().has_animation("default"))
+		
 	face.set_sprite_frames(face_sprites)
 	if next_dialog_texture == null:
 		preload("res://addons/SMRT/next_line.png")
@@ -97,6 +102,17 @@ func _ready():
 	store_dimensions()
 	store_margins()
 	
+func reset():
+	if show_debug_messages:
+		print("reseting the dialog system")
+	finished = false
+	on_dialog = false
+	text = null
+	position= null
+	side = null
+	answer_number = null
+	textObj.set_bbcode("")
+	dialog_array = []
 	
 	
 func load_language(lang_file="res://addons/SMRT/example.lan"):
@@ -105,13 +121,15 @@ func load_language(lang_file="res://addons/SMRT/example.lan"):
 		lang_file = "res://addons/SMRT/example.lan"
 	#Check for and load the language file
 	if (file.open(lang_file,File.READ) == OK):
+		if show_debug_messages:
+			print("Found dialog file" , lang_file)
 		var temp_lang = file.get_as_text()
 		var dictionary = {}
 		dictionary.parse_json(temp_lang)
-		print("LANGUAGE FILE WAS JUST LOADED")
 		return dictionary
 	else:
-		print("Error loading the language file")
+		if show_debug_messages:
+			print("Error loading dialog file")
 		var temp_lang = {"Problem":{"Debug":[{"beep_pitch":1, "face_position":1, "beep":true, "text":"Error loading the language file!", "enable_question":false, "typewriter_speed":0.05, "typewriter":true, "frame_position":1, "face_frame":1}]}}
 		var dictionary = {}
 		dictionary.parse_json(temp_lang)
@@ -121,7 +139,7 @@ func load_language(lang_file="res://addons/SMRT/example.lan"):
 func store_dimensions():
 	dimensions.box_rectangle = get_rect()
 	dimensions.text_rectangle = textObj.get_rect()
-	print("DIMENSIONS ARE: ", dimensions.text_rectangle)
+	
 	dimensions.text_rectangle.size.x += textObj.get_margin(0) + textObj.get_margin(2)
 	dimensions.text_rectangle.size.y += textObj.get_margin(1) + textObj.get_margin(3)
 	dimensions.font_size = font_size
@@ -132,19 +150,16 @@ func store_margins():
 	dimensions.text_margin.right = textObj.get_margin(2)
 	dimensions.text_margin.bottom = textObj.get_margin(3)
 
-func show_text(chapter, dialog, start_at=0):
-	
-	
+func show_text(chapter, dialog, start_at = 0):
 	textObj.set_bbcode("")
+	text=""
 	if start_at == null:      
 		start_at = 0
-	var dialog_array
 	if chapter =="single_text":
 		info = {chapter = chapter, dialog = null, last_text_index = null, total_text = 1, answer = null}
 		dialog_array = dialog
 		position = 1
 	if typeof(dialog_array) == TYPE_STRING:
-		print("dialog was a single line of string")
 		var single_text = {"text": dialog_array}
 		dialog_array = []
 		dialog_array.append(single_text)
@@ -153,11 +168,12 @@ func show_text(chapter, dialog, start_at=0):
 		if current_chapter.empty():
 			dialog_array.append({text: "Chapter has no dialogs"})
 		else:
-			print("CHAPTER SIZE IS: ",current_chapter.size())
+			
 			if current_chapter.has(dialog):
-				print("Found dialog: ",dialog)
+				if show_debug_messages:
+					print("found dialog ", dialog)
+			
 				dialog_array = current_chapter[dialog]
-				print("FOUND DIALOG!")
 				if not dialog_array == null and typeof(dialogs) == TYPE_ARRAY:
 #				STORE INFO	
 					info.chapter = chapter
@@ -180,12 +196,13 @@ func show_text(chapter, dialog, start_at=0):
 	BOTTOM = (get_viewport_rect().size)-Vector2(0,get_size().y)	
 #	A while loop that goes over each array value inside of dialog_array 
 #	based on the start_at parameter
-	while start_at < dialog_array.size() and on_dialog:
-		get_node("nextLine/animation").stop()
+	while on_dialog and start_at < dialog_array.size():
 		textObj.add_font_override("normal_font", font)
 		nextLine.hide()
 #		Gets the values to be reseted at the end of the loop
 		# ERROR CHECKING:
+		if show_debug_messages:
+			print("STARTED DIALOG AT ", start_at)
 		if dialog_array[start_at].has("beep"):
 			beep = dialog_array[start_at].beep
 		if dialog_array[start_at].has("beep_pitch"):
@@ -206,7 +223,7 @@ func show_text(chapter, dialog, start_at=0):
 	
 			face.show()
 			texture_width = face.get_sprite_frames().get_frame(face.get_animation(), face.get_frame()).get_width()
-			print("TEXTURE WIDTH IS: ",texture_width)
+			
 #		Side of the dialog to display the face
 #		RESETING THE DIALOG	
 		text = dialog_array[start_at].text
@@ -217,16 +234,14 @@ func show_text(chapter, dialog, start_at=0):
 		
 #		SPEED
 		if dialog_array[start_at].has("typewriter"):
-			print("TYPEWRITER EFFECT IS ON")
 			typewriter = dialog_array[start_at].typewriter
 		
 		if typewriter:
-			print("=============")
-			print("CHECKING FOR TYPEWRITER EFFECT SPEED")
+	
 			if dialog_array[start_at].has("typewriter_speed"):
 				
 				speed = dialog_array[start_at].typewriter_speed
-				print("SETTING TYPEWRITER EFFECT SPEED")
+
 #		If typewriter boolean is false, then gives ZERO to speed variable
 #		to make the effect disapear.
 		else:
@@ -244,7 +259,6 @@ func show_text(chapter, dialog, start_at=0):
 
 		#POSITION if the dialog is not bubble
 		if position==0:
-			print("position is TOP")
 			set_pos(Vector2(0,0))
 		elif position==1:
 			set_pos(Vector2(0,screen_res.size.y/2)-Vector2(0,get_size().y/2))
@@ -275,37 +289,43 @@ func show_text(chapter, dialog, start_at=0):
 				textObj.set_visible_characters(textObj.get_total_character_count())
 			#Play beep sound for each character
 			if beep:
+				if show_debug_messages:
+					print("beep pitch = ", beep_pitch)
 				audio.set_default_pitch_scale(beep_pitch)
 				audio.play("beep_letter")
 				#audio.set_param(1,old_beep_pitch)
 			textObj.set_visible_characters(textObj.get_visible_characters()+ 1)
 			timer.set_wait_time(speed)
-			#print("Value of characters visible: ",textObj.get_visible_characters())
 			timer.start()
 			yield(timer, "timeout") #So, it will only happen if it is false at first
 		if textObj.get_total_character_count() <= textObj.get_visible_characters():# and not finished and start_at < dialog_array.size()-1:
 			get_node("nextLine/animation").play("idle")
-			print("Finished text display")
+			if show_debug_messages:
+				print("Finished text display")
 			finished = true
 			yield(get_tree(), "idle_frame")
 			info.last_text_index = start_at
 			yield(self,"dialog_control")
 			if enable_question:
 				question(answers)
+				start_at +=1
 				yield(self, "answer_selected")
-			start_at +=1
+			else:
+				start_at +=1
 			finished = false
 			#RESET The message system:
-			print("Added +1 to the start_at variable")
 	on_dialog = false
 # Emits a signal when all the dialogs are over.
 # Useful to know exactly when it is possible to free the resources it holds.
+	if show_debug_messages:
+		print("SMRT finished displaying all the dialog")
 	emit_signal("finished")
 	beep_pitch = 1.0
 	self.hide()
 
 func question(answer_array):
-	print("STARTED QUESTION FUNCTION")
+	if show_debug_messages:
+		print("STARTED QUESTION FUNCTION")
 	btn_answers = HButtonArray.new()
 	btn_answers.add_font_override("font", font)
 	btn_answers.add_style_override("normal", StyleBoxEmpty.new())
@@ -322,9 +342,20 @@ func question(answer_array):
 		btn_answers.add_button(answer)
 
 func selected_answer(btn):
-	info.answer = btn
+	if show_debug_messages:
+		print("Answer selected: ", btn)
+	answer_number = btn
 	
 func _input(event):
+	
+	if not event.is_echo() and event.is_action_pressed("ui_accept") and btn_answers != null and answer_number != null:
+		info.answer = answer_number
+		answer_number = null
+		emit_signal("dialog_control", info)
+		emit_signal("answer_selected")
+		btn_answers.queue_free()
+		info.answer = null
+		
 	if not event.is_echo() and event.is_action_pressed("ui_accept"):
 		if textObj.get_total_character_count() > textObj.get_visible_characters() and on_dialog:
 			textObj.set_visible_characters(textObj.get_total_character_count())
@@ -332,13 +363,10 @@ func _input(event):
 	if finished and not event.is_echo() and event.is_action_pressed("ui_accept"):
 		emit_signal("dialog_control", info)
 	
-	if not event.is_echo() and event.is_action_pressed("ui_accept") and btn_answers != null and info.answer != null:
-		btn_answers.queue_free()
-		btn_answers = null
-		print(btn_answers)
-		emit_signal("dialog_control", info)
-		emit_signal("answer_selected")
-		info.answer = null
 
 func stop():
-	on_dialog = false
+	if show_debug_messages:
+		print("Stopping smrt godot")
+	if btn_answers != null:
+		btn_answers.queue_free()
+	reset()
