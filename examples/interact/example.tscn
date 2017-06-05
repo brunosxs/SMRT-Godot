@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=1]
 
-[ext_resource path="res://examples/example.gd" type="Script" id=1]
+[ext_resource path="res://examples/interact/example.gd" type="Script" id=1]
 [ext_resource path="res://addons/SMRT/dialog.tscn" type="PackedScene" id=2]
 [ext_resource path="res://examples/click.wav" type="Sample" id=3]
 [ext_resource path="res://examples/interact/char.tscn" type="PackedScene" id=4]
@@ -19,6 +19,7 @@ scale = Vector2( 1, 1 )
 [node name="dialog" parent="CanvasLayer" instance=ExtResource( 2 )]
 
 beep_WAV = ExtResource( 3 )
+show_debug_messages = false
 
 [node name="char" parent="." instance=ExtResource( 4 )]
 
@@ -34,7 +35,6 @@ limit/left = -10000000
 limit/top = -10000000
 limit/right = 10000000
 limit/bottom = 10000000
-limit/smoothed = false
 drag_margin/h_enabled = true
 drag_margin/v_enabled = true
 smoothing/enable = false
