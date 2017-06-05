@@ -178,10 +178,24 @@ func show_text(chapter, dialog, start_at = 0):
 #				STORE INFO	
 					info.chapter = chapter
 					info.dialog = dialog
-					info.total_text = dialog_array.size()
+					info.total_text = dialog_array.size()-1
+				else: 
+					emit_signal("finished")
+					if show_debug_messages:
+						print("dialog is null or empty")
+					return
+			else: 
+				yield(get_tree(),"idle_frame") # fix for signal not registering at the same loop
+				if show_debug_messages:
+					print("dialog doesn't exist")
+				stop()
+				emit_signal("finished")
+				return
+	if show_debug_messages:
+		print("Starting the dialog system")
 	on_dialog = true
-	if self.is_hidden():
-		self.show()
+	if is_hidden():
+		show()
 	finished = false
 	side = 0
 	nextLine.hide()
@@ -189,7 +203,12 @@ func show_text(chapter, dialog, start_at = 0):
 	face.hide()
 #	ERROR checking
 	if dialog_array == null or dialog_array.empty():
-		dialog_array = [{"text": "If you see this, it means that either the chapter or the dialog couldn't be found..."}]
+		yield(get_tree(),"idle_frame") # fix for signal not registering at the same loop
+		if show_debug_messages:
+			print("Dialog array is null or empty")
+		stop()
+		emit_signal("finished")
+		return
 #	POSITION VARS:
 	TOP= Vector2(0,0)
 	MIDDLE = (get_viewport_rect().size/2)-Vector2(0,get_size().y)
@@ -289,8 +308,6 @@ func show_text(chapter, dialog, start_at = 0):
 				textObj.set_visible_characters(textObj.get_total_character_count())
 			#Play beep sound for each character
 			if beep:
-				if show_debug_messages:
-					print("beep pitch = ", beep_pitch)
 				audio.set_default_pitch_scale(beep_pitch)
 				audio.play("beep_letter")
 				#audio.set_param(1,old_beep_pitch)
@@ -367,6 +384,7 @@ func _input(event):
 func stop():
 	if show_debug_messages:
 		print("Stopping smrt godot")
-	if btn_answers != null:
-		btn_answers.queue_free()
+	if typeof(btn_answers) != TYPE_NIL:
+		if btn_answers extends HButtonArray:
+			btn_answers.queue_free()
 	reset()
