@@ -26,6 +26,7 @@ func on_body_enter(body):
 			
 			yield(smrt,"finished") # wait for smrt to emit the finished signal so we can continue
 			can_interact = true # re-enable the npc interactiveness
+			smrt.disconnect("dialog_control",self,"on_dialog")
 			Globals.get("player").set_fixed_process(true) # And finally, re-enable the player
 			
 
@@ -50,6 +51,7 @@ func on_dialog(info):
 					move(Vector2(-128,0))
 				else:
 					move(Vector2(128,0))
+				print("changed dialog name from ", get_name())
 				dialog_name = "friend_talk_positive" # We also change the dialog the npc will talk from now on so when the player interact with it from now on, it will show a new answer.
 		elif info.dialog == "great_adventure":
 			var transition = Globals.get("transition") # Grab the transition node
