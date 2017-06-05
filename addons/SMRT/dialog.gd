@@ -180,6 +180,7 @@ func show_text(chapter, dialog, start_at = 0):
 					info.dialog = dialog
 					info.total_text = dialog_array.size()-1
 				else: 
+					yield(get_tree(),"idle_frame") # fix for signal not registering at the same loop
 					emit_signal("finished")
 					if show_debug_messages:
 						print("dialog is null or empty")
@@ -188,7 +189,6 @@ func show_text(chapter, dialog, start_at = 0):
 				yield(get_tree(),"idle_frame") # fix for signal not registering at the same loop
 				if show_debug_messages:
 					print("dialog doesn't exist")
-				stop()
 				emit_signal("finished")
 				return
 	if show_debug_messages:
@@ -206,7 +206,6 @@ func show_text(chapter, dialog, start_at = 0):
 		yield(get_tree(),"idle_frame") # fix for signal not registering at the same loop
 		if show_debug_messages:
 			print("Dialog array is null or empty")
-		stop()
 		emit_signal("finished")
 		return
 #	POSITION VARS:
