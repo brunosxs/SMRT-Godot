@@ -1,7 +1,6 @@
 extends KinematicBody2D
 
 
-var walk_speed = 500
 var direction = Vector2(0,0)
 export var dialog_name = "FRIEND_TALK"
 export var start_at_message = 0
@@ -31,19 +30,34 @@ func on_body_enter(body):
 			
 
 func on_dialog(info):
-#	info is a dictionary that sends the following info:
+#	info is a dictionary that sends the following:
 #	answer: if a question was answered, it will give the index of the button selected, otherwise it is null
 #	chapter: the chapter currently active
 #	dialog: the dialog currently active
-#	last_text_index: the index of the last text
+#	last_text_index: the index of the last text that was displayed
 #	total_text: the number of texts in the currently active dialog
 	
 	var smrt = Globals.get("dialog") # Let's grab the dialog system into a 4 letter var
+	
 	# Check for an answer:
-	if info.chapter == "INTRO": # it is good practice to also check what chapter and...
-		if info.dialog == "FRIEND_TALK": # the dialog we're in
+	if info.chapter == "intro": # it is good practice to also check what chapter and...
+		if info.dialog == "friend_talk": # the dialog we're in
 			if info.answer == 0: # There is only one question on this dialog, we check if the player answered "Of course, I am fearless!"
 				smrt.stop() # We kindly ask SMRT to stop
 				yield(get_tree(),"idle_frame") # and wait one frame for it to patch things up and quit nicelly
-				smrt.show_text("INTRO","FRIEND_TALK_POSITIVE") # to finally follow it with a new dialog
-				dialog_name = "FRIEND_TALK_POSITIVE" # We also change the dialog the npc will talk from now on so when the player interact with it from now on, it will show a new answer.
+				smrt.show_text("intro","friend_talk_positive") # to finally follow it with a new dialog
+				if test_move(Vector2(128,0)): # We will make the npc go out of the path
+					move(Vector2(-128,0))
+				else:
+					move(Vector2(128,0))
+				dialog_name = "friend_talk_positive" # We also change the dialog the npc will talk from now on so when the player interact with it from now on, it will show a new answer.
+		elif info.dialog == "great_adventure":
+			var transition = Globals.get("transition") # Grab the transition node
+			if info.last_text_index == 0: # When the first text finishes
+				transition.play("fade") # we play a fade-to-black animation
+			elif info.last_text_index == info.total_text: # when the last dialog has finished
+				transition.play_backwards("fade")  # we play the same animation, backwards
+				Globals.set("chapter","after_going_there") # change the chapter
+				yield(transition,"finished") # wait for the transition to end
+				
+				

@@ -8,6 +8,7 @@ func _ready():
 	
 
 func _fixed_process(delta):
+	# Simple movement for our char
 	if Input.is_action_pressed("player_up"):
 		direction.y = -1
 	elif Input.is_action_pressed("player_down"):
@@ -19,4 +20,4 @@ func _fixed_process(delta):
 	else:
 		direction = Vector2(0,0)
 	
-	move_and_slide(direction*walk_speed)
+	move(direction*walk_speed*delta)
