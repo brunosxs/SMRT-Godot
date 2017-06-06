@@ -17,7 +17,7 @@ export (int) var font_size = 32
 export (SpriteFrames) var face_sprites = preload("res://addons/SMRT/faces/dialog.tres")
 export (Texture) var next_dialog_texture = preload("res://addons/SMRT/next_line.png")
 export var dialog_frame_height = 4
-
+var face_v_pos = 0
 #DEBUG MESSAGES
 export var show_debug_messages = false
 #Speed of the typewriter effect. If there is no value given in the message,
@@ -47,6 +47,7 @@ var btn_answers
 var answer_number
 var black_screen
 var texture_width
+var texture_height
 var dialog_array
 #THE NEXT VAR IS SENT THROUGH THE SIGNALS dialog_control 
 #AND answer_selected
@@ -241,7 +242,7 @@ func show_text(chapter, dialog, start_at = 0):
 	
 			face.show()
 			texture_width = face.get_sprite_frames().get_frame(face.get_animation(), face.get_frame()).get_width()
-			
+			texture_height = face.get_sprite_frames().get_frame(face.get_animation(), face.get_frame()).get_height()
 #		Side of the dialog to display the face
 #		RESETING THE DIALOG	
 		text = dialog_array[start_at].text
@@ -283,7 +284,9 @@ func show_text(chapter, dialog, start_at = 0):
 		
 		elif position==2:
 			self.set_pos(Vector2(0,screen_res.size.y-(get_size().y)))
-			
+		face_v_pos = get_size().height/2 - (texture_height/2)
+		if show_debug_messages:
+			print("FACE V POS ", face_v_pos)
 		if side == 0:
 			textObj.set_margin(0, dimensions.text_margin.left)
 			textObj.set_margin(1, dimensions.text_margin.top)
@@ -293,13 +296,13 @@ func show_text(chapter, dialog, start_at = 0):
 		elif side == 1:
 			textObj.set_margin(0, texture_width + texture_width/3)
 			textObj.set_margin(2, dimensions.text_margin.right)
-			face.set_pos(Vector2(8,8))
+			face.set_pos(Vector2(8,face_v_pos))
 			face.set_flip_h(false)
 			face.show()
 		elif side == 2:
 			textObj.set_margin(2, texture_width + texture_width/3)
 			textObj.set_margin(0, dimensions.text_margin.left)
-			face.set_pos(Vector2(get_size().x-texture_width-8,8))
+			face.set_pos(Vector2(get_size().x-texture_width-8,face_v_pos))
 			face.set_flip_h(true)
 			face.show()
 		while textObj.get_total_character_count() > textObj.get_visible_characters():
