@@ -7,7 +7,7 @@ export var start_at_message = 0
 var can_interact = true
 
 func _ready():
-	get_node("interactible_area").connect("body_enter",self, "on_body_enter")
+	get_node("interactive_area").connect("body_enter",self, "on_body_enter")
 	pass
 
 

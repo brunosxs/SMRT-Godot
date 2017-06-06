@@ -5,7 +5,6 @@ var direction = Vector2(0,0)
 func _ready():
 	set_fixed_process(true)
 	Globals.set("player", self) # We make the player accessible more easily through Globals.
-	
 
 func _fixed_process(delta):
 	# Simple movement for our char
@@ -18,6 +17,5 @@ func _fixed_process(delta):
 	elif Input.is_action_pressed("player_right"):
 		direction.x = 1
 	else:
-		direction = Vector2(0,0)
-	
+		direction = Vector2(0,0)	
 	move(direction*walk_speed*delta)
