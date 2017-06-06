@@ -39,7 +39,6 @@ scale = Vector2( 1, 1 )
 
 [node name="transition" type="AnimationPlayer" parent="CanvasLayer"]
 
-editor/display_folded = true
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
@@ -119,6 +118,7 @@ _update_shape_index = 0
 
 [node name="npc2" parent="." instance=ExtResource( 6 )]
 
+editor/display_folded = true
 transform/pos = Vector2( 420, 359 )
 script/script = ExtResource( 8 )
 dialog_name = "that_guy_talk"
@@ -147,6 +147,7 @@ _update_shape_index = 0
 
 [node name="trigger" parent="." instance=ExtResource( 6 )]
 
+editor/display_folded = true
 transform/pos = Vector2( 770, -19 )
 script/script = ExtResource( 8 )
 dialog_name = "great_adventure"
