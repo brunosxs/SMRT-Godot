@@ -93,13 +93,12 @@ script/script = ExtResource( 7 )
 
 [node name="npc" parent="." instance=ExtResource( 6 )]
 
-editor/display_folded = true
 transform/pos = Vector2( 769, 116 )
 script/script = ExtResource( 8 )
 dialog_name = "friend_talk"
 start_at_message = 0
 
-[node name="interactible_area" type="Area2D" parent="npc"]
+[node name="interactive_area" type="Area2D" parent="npc"]
 
 input/pickable = true
 shapes/0/shape = SubResource( 1 )
@@ -110,7 +109,7 @@ gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="npc/interactible_area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="npc/interactive_area"]
 
 shape = SubResource( 1 )
 trigger = false
@@ -118,7 +117,6 @@ _update_shape_index = 0
 
 [node name="npc2" parent="." instance=ExtResource( 6 )]
 
-editor/display_folded = true
 transform/pos = Vector2( 420, 359 )
 script/script = ExtResource( 8 )
 dialog_name = "that_guy_talk"
@@ -128,7 +126,7 @@ start_at_message = 0
 
 modulate = Color( 1, 0.59375, 0.59375, 1 )
 
-[node name="interactible_area" type="Area2D" parent="npc2"]
+[node name="interactive_area" type="Area2D" parent="npc2"]
 
 input/pickable = true
 shapes/0/shape = SubResource( 1 )
@@ -139,7 +137,7 @@ gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="npc2/interactible_area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="npc2/interactive_area"]
 
 shape = SubResource( 1 )
 trigger = false
@@ -147,13 +145,12 @@ _update_shape_index = 0
 
 [node name="trigger" parent="." instance=ExtResource( 6 )]
 
-editor/display_folded = true
 transform/pos = Vector2( 770, -19 )
 script/script = ExtResource( 8 )
 dialog_name = "great_adventure"
 start_at_message = 0
 
-[node name="interactible_area" type="Area2D" parent="trigger"]
+[node name="interactive_area" type="Area2D" parent="trigger"]
 
 input/pickable = true
 shapes/0/shape = SubResource( 1 )
@@ -164,7 +161,7 @@ gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="trigger/interactible_area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="trigger/interactive_area"]
 
 shape = SubResource( 1 )
 trigger = false
@@ -190,4 +187,5 @@ drag_margin/right = 0.2
 drag_margin/bottom = 0.2
 
 
+[editable path="npc"]
 [editable path="npc2"]
