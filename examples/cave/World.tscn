@@ -150,6 +150,10 @@ script/script = ExtResource( 8 )
 dialog_name = "great_adventure"
 start_at_message = 0
 
+[node name="Sprite" parent="trigger"]
+
+texture = null
+
 [node name="interactive_area" type="Area2D" parent="trigger"]
 
 input/pickable = true
@@ -189,3 +193,4 @@ drag_margin/bottom = 0.2
 
 [editable path="npc"]
 [editable path="npc2"]
+[editable path="trigger"]
