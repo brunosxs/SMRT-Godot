@@ -17,7 +17,7 @@ export (int) var font_size = 32
 export (SpriteFrames) var face_sprites = preload("res://addons/SMRT/faces/dialog.tres")
 export (Texture) var next_dialog_texture = preload("res://addons/SMRT/next_line.png")
 export var dialog_frame_height = 4
-
+var face_v_pos = 0
 #DEBUG MESSAGES
 export var show_debug_messages = false
 #Speed of the typewriter effect. If there is no value given in the message,
@@ -47,6 +47,7 @@ var btn_answers
 var answer_number
 var black_screen
 var texture_width
+var texture_height
 var dialog_array
 #THE NEXT VAR IS SENT THROUGH THE SIGNALS dialog_control 
 #AND answer_selected
@@ -178,10 +179,24 @@ func show_text(chapter, dialog, start_at = 0):
 #				STORE INFO	
 					info.chapter = chapter
 					info.dialog = dialog
-					info.total_text = dialog_array.size()
+					info.total_text = dialog_array.size()-1
+				else: 
+					yield(get_tree(),"idle_frame") # fix for signal not registering at the same loop
+					emit_signal("finished")
+					if show_debug_messages:
+						print("dialog is null or empty")
+					return
+			else: 
+				yield(get_tree(),"idle_frame") # fix for signal not registering at the same loop
+				if show_debug_messages:
+					print("dialog doesn't exist")
+				emit_signal("finished")
+				return
+	if show_debug_messages:
+		print("Starting the dialog system")
 	on_dialog = true
-	if self.is_hidden():
-		self.show()
+	if is_hidden():
+		show()
 	finished = false
 	side = 0
 	nextLine.hide()
@@ -189,7 +204,11 @@ func show_text(chapter, dialog, start_at = 0):
 	face.hide()
 #	ERROR checking
 	if dialog_array == null or dialog_array.empty():
-		dialog_array = [{"text": "If you see this, it means that either the chapter or the dialog couldn't be found..."}]
+		yield(get_tree(),"idle_frame") # fix for signal not registering at the same loop
+		if show_debug_messages:
+			print("Dialog array is null or empty")
+		emit_signal("finished")
+		return
 #	POSITION VARS:
 	TOP= Vector2(0,0)
 	MIDDLE = (get_viewport_rect().size/2)-Vector2(0,get_size().y)
@@ -223,7 +242,7 @@ func show_text(chapter, dialog, start_at = 0):
 	
 			face.show()
 			texture_width = face.get_sprite_frames().get_frame(face.get_animation(), face.get_frame()).get_width()
-			
+			texture_height = face.get_sprite_frames().get_frame(face.get_animation(), face.get_frame()).get_height()
 #		Side of the dialog to display the face
 #		RESETING THE DIALOG	
 		text = dialog_array[start_at].text
@@ -265,7 +284,9 @@ func show_text(chapter, dialog, start_at = 0):
 		
 		elif position==2:
 			self.set_pos(Vector2(0,screen_res.size.y-(get_size().y)))
-			
+		face_v_pos = get_size().height/2 - (texture_height/2)
+		if show_debug_messages:
+			print("FACE V POS ", face_v_pos)
 		if side == 0:
 			textObj.set_margin(0, dimensions.text_margin.left)
 			textObj.set_margin(1, dimensions.text_margin.top)
@@ -275,13 +296,13 @@ func show_text(chapter, dialog, start_at = 0):
 		elif side == 1:
 			textObj.set_margin(0, texture_width + texture_width/3)
 			textObj.set_margin(2, dimensions.text_margin.right)
-			face.set_pos(Vector2(8,8))
+			face.set_pos(Vector2(8,face_v_pos))
 			face.set_flip_h(false)
 			face.show()
 		elif side == 2:
 			textObj.set_margin(2, texture_width + texture_width/3)
 			textObj.set_margin(0, dimensions.text_margin.left)
-			face.set_pos(Vector2(get_size().x-texture_width-8,8))
+			face.set_pos(Vector2(get_size().x-texture_width-8,face_v_pos))
 			face.set_flip_h(true)
 			face.show()
 		while textObj.get_total_character_count() > textObj.get_visible_characters():
@@ -289,8 +310,6 @@ func show_text(chapter, dialog, start_at = 0):
 				textObj.set_visible_characters(textObj.get_total_character_count())
 			#Play beep sound for each character
 			if beep:
-				if show_debug_messages:
-					print("beep pitch = ", beep_pitch)
 				audio.set_default_pitch_scale(beep_pitch)
 				audio.play("beep_letter")
 				#audio.set_param(1,old_beep_pitch)
@@ -367,6 +386,7 @@ func _input(event):
 func stop():
 	if show_debug_messages:
 		print("Stopping smrt godot")
-	if btn_answers != null:
-		btn_answers.queue_free()
+	if typeof(btn_answers) != TYPE_NIL:
+		if btn_answers extends HButtonArray:
+			btn_answers.queue_free()
 	reset()
