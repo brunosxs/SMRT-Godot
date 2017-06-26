@@ -24,9 +24,6 @@ func selected_option(btn):
 
 func do_things(info):
 	print("SMRT returned the following: ",info)
-	if info.last_text_index == 2:
-		SMRT.stop()
-		print("LET'S STOP THIS DIALOG!")
 	if info.answer == 2:
 		print("Dunwanna hear it...")
 		SMRT.on_dialog = false
