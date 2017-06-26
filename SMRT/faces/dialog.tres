@@ -3,8 +3,9 @@
 [ext_resource path="res://addons/SMRT/faces/faces2.png" type="Texture" id=1]
 [ext_resource path="res://addons/SMRT/faces/faces1.png" type="Texture" id=2]
 [ext_resource path="res://addons/SMRT/faces/faces3.png" type="Texture" id=3]
+[ext_resource path="res://examples/cave/characters/face.png" type="Texture" id=4]
 
 [resource]
 
-animations = [ { "frames":[ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 )], "loop":true, "name":"default", "speed":5.0 } ]
+animations = [ { "frames":[ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ) ], "loop":true, "name":"default", "speed":5.0 } ]
 

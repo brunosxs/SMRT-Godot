@@ -241,8 +241,8 @@ func show_text(chapter, dialog, start_at = 0):
 			side = dialog_array[start_at].face_position
 	
 			face.show()
-			texture_width = face.get_sprite_frames().get_frame(face.get_animation(), face.get_frame()).get_width()
-			texture_height = face.get_sprite_frames().get_frame(face.get_animation(), face.get_frame()).get_height()
+		texture_width = face.get_sprite_frames().get_frame(face.get_animation(), face.get_frame()).get_width()
+		texture_height = face.get_sprite_frames().get_frame(face.get_animation(), face.get_frame()).get_height()
 #		Side of the dialog to display the face
 #		RESETING THE DIALOG	
 		text = dialog_array[start_at].text
@@ -284,7 +284,8 @@ func show_text(chapter, dialog, start_at = 0):
 		
 		elif position==2:
 			self.set_pos(Vector2(0,screen_res.size.y-(get_size().y)))
-		face_v_pos = get_size().height/2 - (texture_height/2)
+		var size = get_size().x
+		face_v_pos = get_size().y/2 - (texture_height/2)
 		if show_debug_messages:
 			print("FACE V POS ", face_v_pos)
 		if side == 0:
