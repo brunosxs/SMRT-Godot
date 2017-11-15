@@ -19,10 +19,10 @@ scale = Vector2( 1, 1 )
 [node name="dialog" parent="CanvasLayer" instance=ExtResource( 2 )]
 
 beep_WAV = ExtResource( 3 )
-show_debug_messages = false
 
 [node name="char" parent="." instance=ExtResource( 4 )]
 
+editor/display_folded = true
 is_player = true
 
 [node name="Camera2D" type="Camera2D" parent="char"]

@@ -43,6 +43,7 @@ var text
 var typewriter = true
 var enable_question
 var answers
+var dialog_dup
 var btn_answers
 var answer_number
 var black_screen
@@ -346,36 +347,73 @@ func show_text(chapter, dialog, start_at = 0):
 func question(answer_array):
 	if show_debug_messages:
 		print("STARTED QUESTION FUNCTION")
-	btn_answers = HButtonArray.new()
-	btn_answers.add_font_override("font", font)
-	btn_answers.add_style_override("normal", StyleBoxEmpty.new())
-	btn_answers.add_style_override("selected", StyleBoxEmpty.new())
-	btn_answers.add_style_override("hover", StyleBoxEmpty.new())
-	btn_answers.add_font_override("font_selected", font)
-	btn_answers.set_pos(Vector2(textObj.get_pos().x, get_rect().size.y/2))
+	btn_answers = ButtonGroup.new()
+	btn_answers.set_alignment(HALIGN_LEFT)
 	
+	btn_answers.set_anchor(MARGIN_LEFT, ANCHOR_BEGIN)
+	btn_answers.set_anchor(MARGIN_TOP, ANCHOR_BEGIN)
+	btn_answers.set_anchor(MARGIN_RIGHT, ANCHOR_END)
+	btn_answers.set_anchor(MARGIN_BOTTOM, ANCHOR_END)
 	
-	add_child(btn_answers)
+	dialog_dup = self.duplicate()
+	dialog_dup.set_pos(btn_answers.get_pos())
+	dialog_dup.set_opacity(0)
+	btn_answers.set_pos(Vector2(0,0))
+	dialog_dup.set_script(null)
+	add_child(dialog_dup)
+	for child in dialog_dup.get_children():
+		child.queue_free()
+	remove_child(btn_answers)
+	dialog_dup.add_child(btn_answers)
 	btn_answers.grab_focus()
+	btn_answers.set_size(Vector2(0,0))
+	
 	btn_answers.connect("button_selected", self, "selected_answer")
+	if position <= 1:
+		dialog_dup.set_pos(Vector2(textObj.get_pos().x, get_rect().size.y/2))
+	else:
+		#question will appear on top of the dialog
+		dialog_dup.set_pos(Vector2(textObj.get_pos().x, get_rect().size.y*-1))
+	var index = 0
 	for answer in answer_array:
-		btn_answers.add_button(answer)
+		yield(get_tree(),"idle_frame")
+		var b = Button.new()
+		b.set_text(answer)
+		b.add_font_override("font", font)
+		b.set_flat(true)
+		b.add_style_override("normal", StyleBoxEmpty.new())
+		b.add_style_override("selected", StyleBoxEmpty.new())
+		b.add_style_override("pressed", StyleBoxEmpty.new())
+		b.add_style_override("hover", StyleBoxEmpty.new())
+		b.add_font_override("font_selected", font)
+#		b.set_h_size_flags(0)
+		btn_answers.add_child(b)
+#		if index > 0:
+#			var last_child = btn_answers.get_child(index-1)
+#			b.set_focus_neighbour(MARGIN_TOP,last_child.get_path())
+#		index+=1
+	btn_answers.get_children()[0].grab_focus()
+	btn_answers.update()
+	yield(get_tree(), "idle_frame")
+	dialog_dup.set_size(Vector2(get_size().x/2,btn_answers.get_size().y))
+	dialog_dup.update()
+	btn_answers.set_margin(MARGIN_RIGHT, 0)
+	dialog_dup.set_opacity(1)
 
 func selected_answer(btn):
 	if show_debug_messages:
 		print("Answer selected: ", btn)
-	answer_number = btn
+	answer_number = btn.get_index()
+	info.answer = answer_number
+	answer_number = null
+	emit_signal("dialog_control", info)
+	emit_signal("answer_selected")
+	dialog_dup.queue_free()
+	info.answer = null
 	
 func _input(event):
 	
-	if not event.is_echo() and event.is_action_pressed("ui_accept") and btn_answers != null and answer_number != null:
-		info.answer = answer_number
-		answer_number = null
-		emit_signal("dialog_control", info)
-		emit_signal("answer_selected")
-		btn_answers.queue_free()
-		info.answer = null
-		
+	
 	if not event.is_echo() and event.is_action_pressed("ui_accept"):
 		if textObj.get_total_character_count() > textObj.get_visible_characters() and on_dialog:
 			textObj.set_visible_characters(textObj.get_total_character_count())

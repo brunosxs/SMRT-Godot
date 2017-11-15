@@ -8,7 +8,7 @@ onready var buttons = get_node("VButtonArray")
 onready var SMRT = get_node("CanvasLayer/dialog")
 var bubble_pos = true
 func _ready():
-	SMRT.show_text("single_text","HEYA FRIEND! THIS IS A SINGLE TEXT BOX YOU CAN CALL!")
+#	SMRT.show_text("single_text","HEYA FRIEND! THIS IS A SINGLE TEXT BOX YOU CAN CALL!")
 	buttons.connect("button_selected", self, "selected_option")
 	SMRT.connect("dialog_control", self, "do_things")
 	print("SMRT is connected to example: ", SMRT.is_connected("dialog_control", self,"do_things"))
