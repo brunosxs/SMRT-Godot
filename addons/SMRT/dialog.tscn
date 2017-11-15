@@ -17,7 +17,12 @@ tracks/0/type = "value"
 tracks/0/path = NodePath(".:visibility/visible")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 0.5 ), "transitions":FloatArray( 1, 1 ), "update":1, "values":[ true, false ] }
+tracks/0/keys = {
+"times": FloatArray( 0, 0.5 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
 [sub_resource type="Animation" id=2]
 
@@ -28,12 +33,22 @@ tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ Color( 0, 0, 0, 1 ) ] }
+tracks/0/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ) ]
+}
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:visibility/self_opacity")
 tracks/1/interp = 1
 tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0, 0.6 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 0.0, 1.0 ] }
+tracks/1/keys = {
+"times": FloatArray( 0, 0.6 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
 
 [sub_resource type="Animation" id=3]
 
@@ -44,12 +59,22 @@ tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 0.5, 0.6 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ] }
+tracks/0/keys = {
+"times": FloatArray( 0, 0.5, 0.6 ),
+"transitions": FloatArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:visibility/self_opacity")
 tracks/1/interp = 1
 tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0, 0.6 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 1.0, 0.0 ] }
+tracks/1/keys = {
+"times": FloatArray( 0, 0.6 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
 
 [sub_resource type="Animation" id=4]
 
@@ -60,16 +85,31 @@ tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ Color( 1, 1, 1, 1 ) ] }
+tracks/0/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:visibility/self_opacity")
 tracks/1/interp = 1
 tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ 1.0 ] }
+tracks/1/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
 
 [sub_resource type="SampleLibrary" id=5]
 
-samples/beep_letter = { "db":0.0, "pitch":1.0, "sample":ExtResource( 3 ) }
+samples/beep_letter = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 3 )
+}
 
 [sub_resource type="DynamicFont" id=6]
 
@@ -97,7 +137,9 @@ patch_margin/top = 4
 patch_margin/right = 3
 patch_margin/bottom = 4
 script/script = ExtResource( 2 )
-__meta__ = { "__editor_plugin_screen__":"2D" }
+__meta__ = {
+"__editor_plugin_screen__": "2D"
+}
 language = "res://addons/SMRT/example.lan"
 beep_WAV = ExtResource( 3 )
 font = ExtResource( 4 )
@@ -105,6 +147,7 @@ font_size = 32
 face_sprites = ExtResource( 5 )
 next_dialog_texture = ExtResource( 6 )
 dialog_frame_height = 4
+show_debug_messages = false
 
 [node name="nextLine" type="TextureFrame" parent="."]
 
@@ -164,7 +207,7 @@ autoplay = ""
 
 [node name="SamplePlayer" type="SamplePlayer" parent="."]
 
-config/polyphony = 1
+config/polyphony = 20
 config/samples = SubResource( 5 )
 default/volume_db = -18.0
 default/pitch_scale = 1.0
@@ -172,7 +215,7 @@ default/pan = 0.0
 default/depth = 0.0
 default/height = 0.0
 default/filter/type = 0
-default/filter/cutoff = 5000.0
+default/filter/cutoff = 0.0
 default/filter/resonance = 1.0
 default/filter/gain = 1.0
 default/reverb_room = 2
@@ -197,5 +240,6 @@ custom_colors/default_color = Color( 1, 1, 1, 1 )
 bbcode/enabled = true
 bbcode/bbcode = "ABRAKADABRA"
 visible_characters = -1
+percent_visible = 1.0
 
 

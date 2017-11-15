@@ -2,7 +2,7 @@
 
 [ext_resource path="res://examples/interact/example.gd" type="Script" id=1]
 [ext_resource path="res://addons/SMRT/dialog.tscn" type="PackedScene" id=2]
-[ext_resource path="res://examples/click.wav" type="Sample" id=3]
+[ext_resource path="res://addons/SMRT/typewriter key 1 sound effect from SFX WORLD HIGH QUALTIY-cq4Ab_FGUv0.wav" type="Sample" id=3]
 [ext_resource path="res://examples/interact/char.tscn" type="PackedScene" id=4]
 
 [node name="Node2D" type="Node2D"]
@@ -19,10 +19,11 @@ scale = Vector2( 1, 1 )
 [node name="dialog" parent="CanvasLayer" instance=ExtResource( 2 )]
 
 beep_WAV = ExtResource( 3 )
-show_debug_messages = false
+show_debug_messages = true
 
 [node name="char" parent="." instance=ExtResource( 4 )]
 
+editor/display_folded = true
 is_player = true
 
 [node name="Camera2D" type="Camera2D" parent="char"]

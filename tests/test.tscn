@@ -1,0 +1,88 @@
+[gd_scene load_steps=2 format=1]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends Control\nvar bgroup\nfunc _ready():\n\tbgroup = get_node(\"ButtonGroup\")\n\tbgroup.connect(\"button_selected\",self,\"test\")\n\tbgroup.get_child(0).grab_focus()\n\tpass\n\nfunc test(button):\n\tprint(button.get_name(),\" was pressed\")"
+
+[node name="Control" type="Control"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 600.0
+margin/bottom = 112.0
+script/script = SubResource( 1 )
+
+[node name="ButtonGroup" type="ButtonGroup" parent="."]
+
+anchor/left = 2
+anchor/top = 2
+anchor/right = 2
+anchor/bottom = 2
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.5
+margin/top = 0.5
+margin/right = 0.416667
+margin/bottom = 0.0535714
+alignment = 1
+
+[node name="Teste" type="Button" parent="ButtonGroup"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 69.0
+margin/bottom = 20.0
+toggle_mode = true
+click_on_press = true
+enabled_focus_mode = 2
+shortcut = null
+text = "First test"
+flat = false
+
+[node name="Teste1" type="Button" parent="ButtonGroup"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 2
+margin/left = 11.0
+margin/top = 20.0
+margin/right = 58.0
+margin/bottom = 40.0
+toggle_mode = true
+click_on_press = true
+enabled_focus_mode = 2
+shortcut = null
+text = "Teste"
+flat = true
+align = 0
+
+[node name="Teste2" type="Button" parent="ButtonGroup"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 2
+margin/left = 11.0
+margin/top = 40.0
+margin/right = 58.0
+margin/bottom = 60.0
+toggle_mode = true
+click_on_press = true
+enabled_focus_mode = 2
+shortcut = null
+text = "Teste"
+flat = true
+align = 0
+
+
