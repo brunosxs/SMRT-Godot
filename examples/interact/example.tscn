@@ -19,7 +19,6 @@ scale = Vector2( 1, 1 )
 [node name="dialog" parent="CanvasLayer" instance=ExtResource( 2 )]
 
 beep_WAV = ExtResource( 3 )
-show_debug_messages = true
 
 [node name="char" parent="." instance=ExtResource( 4 )]
 
@@ -56,12 +55,12 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 121.0
-margin/bottom = 40.0
+margin/left = -318.0
+margin/top = -298.0
+margin/right = 21.0
+margin/bottom = -230.0
 flat = false
-button/count = 2
+button/count = 3
 button/min_button_size = -1.0
 button/align = 0
 button/0/text = "1"
@@ -70,6 +69,51 @@ button/0/icon = null
 button/1/text = "2"
 button/1/tooltip = ""
 button/1/icon = null
+button/2/text = "update global playerName and start dynamic dialog"
+button/2/tooltip = ""
+button/2/icon = null
 button/selected = 0
+
+[node name="Panel" type="Panel" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -506.0
+margin/top = -297.0
+margin/right = -321.0
+margin/bottom = -241.0
+
+[node name="LineEdit" type="LineEdit" parent="Panel"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 2.0
+margin/top = 14.0
+margin/right = 176.0
+margin/bottom = 38.0
+text = "Garfunkel"
+placeholder/alpha = 0.6
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="labelName" type="Label" parent="Panel"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 2.0
+margin/top = 1.0
+margin/right = 79.0
+margin/bottom = 15.0
+text = "Player Name"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 

@@ -71,7 +71,10 @@ onready var anim = get_node("anim")
 
 func _ready():
 	language = load_language(language)
+	Globals.set("playerName","Marquito")
+	Globals.set("enemyName","Skull Knight")
 	
+	parser("Hello, how's it going? So, {{playerName}} is your name? How lame. I am called {{enemyName}}, and I tear your flesh and dreams apart with a blink of my eyelidless eyes.")
 	#defaults
 	if beep_WAV == null:
 		if show_debug_messages:
@@ -162,7 +165,7 @@ func show_text(chapter, dialog, start_at = 0):
 		dialog_array = dialog
 		position = 1
 	if typeof(dialog_array) == TYPE_STRING:
-		var single_text = {"text": dialog_array}
+		var single_text = {"text": parser(dialog_array)}
 		dialog_array = []
 		dialog_array.append(single_text)
 	if language.has(chapter):
@@ -246,7 +249,7 @@ func show_text(chapter, dialog, start_at = 0):
 		texture_height = face.get_sprite_frames().get_frame(face.get_animation(), face.get_frame()).get_height()
 #		Side of the dialog to display the face
 #		RESETING THE DIALOG	
-		text = dialog_array[start_at].text
+		text = parser(dialog_array[start_at].text)
 		textObj.set_bbcode(text)
 		textObj.set_visible_characters(-1)
 		var screen_res = get_tree().get_root().get_rect()
@@ -432,3 +435,57 @@ func stop():
 		if btn_answers extends HButtonArray:
 			btn_answers.queue_free()
 	reset()
+
+func parser(string_to_change):
+	var found = 0
+	if show_debug_messages:
+		print("This is the string: ", string_to_change)
+	var index = 0
+	var new_string =""
+	var sub = {}
+	while index < string_to_change.length():
+		var b = string_to_change.find("{{", index)
+		var part_start = index
+		if b != -1:
+			found+=1
+			var part
+			index = b
+			sub["start"] = index
+			var b = string_to_change.find("}}", index)
+			part = string_to_change.substr(part_start, sub["start"]-part_start)
+			new_string += part
+			if b != -1:
+				sub["end"] = b
+				sub["string"] = string_to_change.substr(sub["start"]+2, sub["end"] - sub["start"]-2)
+				if Globals.has(sub["string"]):
+					var dynamic_value = Globals.get(sub["string"])
+
+					string_to_change.erase(0, sub["end"])
+					if show_debug_messages:
+						print("STRING TO CHANGE: ",string_to_change)
+#					string_to_change.insert(index, dynamic_value)
+					new_string += dynamic_value
+					if show_debug_messages:
+						print(dynamic_value)
+					index = 0
+
+				else:
+					pass
+				index +=1
+
+			
+					
+				
+				
+	
+		index +=1	
+	if found > 0:
+		string_to_change.erase(0,2)
+		new_string += string_to_change
+		if show_debug_messages:
+			print("String after change: ", new_string)
+		return new_string
+	else:
+		if show_debug_messages:
+			print("Returning the old string: ", string_to_change)
+		return string_to_change

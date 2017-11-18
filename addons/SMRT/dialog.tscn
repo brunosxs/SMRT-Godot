@@ -147,7 +147,7 @@ font_size = 32
 face_sprites = ExtResource( 5 )
 next_dialog_texture = ExtResource( 6 )
 dialog_frame_height = 4
-show_debug_messages = false
+show_debug_messages = true
 
 [node name="nextLine" type="TextureFrame" parent="."]
 

@@ -21,6 +21,11 @@ func selected_option(btn):
 			SMRT.show_text("INTRO","OLD MAN", 0)
 		elif btn == 1:
 			SMRT.show_text("INTRO", "Freddie",0)
+		elif btn == 2:
+#			Updating the global playerName	
+			Globals.set("playerName", get_node("Panel/LineEdit").get_text())
+#			Firing the dialog
+			SMRT.show_text("INTRO", "dynamic")
 
 func do_things(info):
 	print("SMRT returned the following: ",info)
