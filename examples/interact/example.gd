@@ -11,7 +11,8 @@ func _ready():
 #	SMRT.show_text("single_text","HEYA FRIEND! THIS IS A SINGLE TEXT BOX YOU CAN CALL!")
 	buttons.connect("button_selected", self, "selected_option")
 	SMRT.connect("dialog_control", self, "do_things")
-	print("SMRT is connected to example: ", SMRT.is_connected("dialog_control", self,"do_things"))
+	Globals.set("money", 1000)
+	
 	pass
 	
 func selected_option(btn):

@@ -71,10 +71,7 @@ onready var anim = get_node("anim")
 
 func _ready():
 	language = load_language(language)
-	Globals.set("playerName","Marquito")
-	Globals.set("enemyName","Skull Knight")
 	
-	parser("Hello, how's it going? So, {{playerName}} is your name? How lame. I am called {{enemyName}}, and I tear your flesh and dreams apart with a blink of my eyelidless eyes.")
 	#defaults
 	if beep_WAV == null:
 		if show_debug_messages:
@@ -464,7 +461,7 @@ func parser(string_to_change):
 					if show_debug_messages:
 						print("STRING TO CHANGE: ",string_to_change)
 #					string_to_change.insert(index, dynamic_value)
-					new_string += dynamic_value
+					new_string += str(dynamic_value)
 					if show_debug_messages:
 						print(dynamic_value)
 					index = 0
@@ -473,11 +470,6 @@ func parser(string_to_change):
 					pass
 				index +=1
 
-			
-					
-				
-				
-	
 		index +=1	
 	if found > 0:
 		string_to_change.erase(0,2)
