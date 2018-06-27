@@ -1,119 +1,214 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://examples/interact/example.gd" type="Script" id=1]
 [ext_resource path="res://addons/SMRT/dialog.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/SMRT/typewriter key 1 sound effect from SFX WORLD HIGH QUALTIY-cq4Ab_FGUv0.wav" type="Sample" id=3]
+[ext_resource path="res://addons/SMRT/typewriter key 1 sound effect from SFX WORLD HIGH QUALTIY-cq4Ab_FGUv0.wav" type="AudioStream" id=3]
 [ext_resource path="res://examples/interact/char.tscn" type="PackedScene" id=4]
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="ButtonGroup" id=1]
 
-script/script = ExtResource( 1 )
+resource_local_to_scene = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="Node2D" type="Node2D" index="0"]
+
+script = ExtResource( 1 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="0"]
 
 layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
-[node name="dialog" parent="CanvasLayer" instance=ExtResource( 2 )]
+[node name="dialog" parent="CanvasLayer" index="0" instance=ExtResource( 2 )]
 
+visible = false
+_sections_unfolded = [ "Patch Margin", "Visibility" ]
 beep_WAV = ExtResource( 3 )
 
-[node name="char" parent="." instance=ExtResource( 4 )]
+[node name="char" parent="." index="1" instance=ExtResource( 4 )]
 
 editor/display_folded = true
-is_player = true
 
-[node name="Camera2D" type="Camera2D" parent="char"]
+[node name="Camera2D" type="Camera2D" parent="char" index="3"]
 
 anchor_mode = 1
 rotating = false
 current = true
 zoom = Vector2( 1, 1 )
-limit/left = -10000000
-limit/top = -10000000
-limit/right = 10000000
-limit/bottom = 10000000
-drag_margin/h_enabled = true
-drag_margin/v_enabled = true
-smoothing/enable = false
-smoothing/speed = 5.0
-drag_margin/left = 0.2
-drag_margin/top = 0.2
-drag_margin/right = 0.2
-drag_margin/bottom = 0.2
+limit_left = -10000000
+limit_top = -10000000
+limit_right = 10000000
+limit_bottom = 10000000
+limit_smoothed = false
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+smoothing_enabled = false
+smoothing_speed = 5.0
+offset_v = 0.0
+offset_h = 0.0
+drag_margin_left = 0.2
+drag_margin_top = 0.2
+drag_margin_right = 0.2
+drag_margin_bottom = 0.2
+editor_draw_screen = true
+editor_draw_limits = false
+editor_draw_drag_margin = false
 
-[node name="char1" parent="." instance=ExtResource( 4 )]
+[node name="char1" parent="." index="2" instance=ExtResource( 4 )]
 
-transform/pos = Vector2( -10, 80 )
-is_player = false
+position = Vector2( 220, 0 )
 
-[node name="VButtonArray" type="VButtonArray" parent="."]
+[node name="Panel" type="Panel" parent="." index="3"]
 
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = -318.0
-margin/top = -298.0
-margin/right = 21.0
-margin/bottom = -230.0
-flat = false
-button/count = 3
-button/min_button_size = -1.0
-button/align = 0
-button/0/text = "1"
-button/0/tooltip = ""
-button/0/icon = null
-button/1/text = "2"
-button/1/tooltip = ""
-button/1/icon = null
-button/2/text = "update global playerName and start dynamic dialog"
-button/2/tooltip = ""
-button/2/icon = null
-button/selected = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 500.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 500, 40 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+_sections_unfolded = [ "Anchor", "Margin", "Rect" ]
 
-[node name="Panel" type="Panel" parent="."]
+[node name="LineEdit" type="LineEdit" parent="Panel" index="0"]
 
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = -506.0
-margin/top = -297.0
-margin/right = -321.0
-margin/bottom = -241.0
-
-[node name="LineEdit" type="LineEdit" parent="Panel"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 2.0
-margin/top = 14.0
-margin/right = 176.0
-margin/bottom = 38.0
-text = "Garfunkel"
-placeholder/alpha = 0.6
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 160.0
+margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 focus_mode = 2
-caret/caret_blink = false
-caret/caret_blink_speed = 0.65
+mouse_filter = 0
+mouse_default_cursor_shape = 1
+size_flags_horizontal = 1
+size_flags_vertical = 1
+text = "Garfunkel"
+focus_mode = 2
+context_menu_enabled = true
+placeholder_alpha = 0.6
+caret_blink = false
+caret_blink_speed = 0.65
+caret_position = 0
 
-[node name="labelName" type="Label" parent="Panel"]
+[node name="labelName" type="Label" parent="Panel" index="1"]
 
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 2.0
-margin/top = 1.0
-margin/right = 79.0
-margin/bottom = 15.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
 text = "Player Name"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." index="4"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 160.0
+margin_top = 120.0
+margin_right = 260.0
+margin_bottom = 188.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="Button" type="Button" parent="VBoxContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 100, 20 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = SubResource( 1 )
+text = "Example 1"
+flat = false
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Button2" type="Button" parent="VBoxContainer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 24.0
+margin_right = 100.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 100, 20 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = SubResource( 1 )
+text = "Example 2"
+flat = false
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Button3" type="Button" parent="VBoxContainer" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 48.0
+margin_right = 100.0
+margin_bottom = 68.0
+rect_min_size = Vector2( 100, 20 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = SubResource( 1 )
+flat = false
+align = 1
+_sections_unfolded = [ "Rect" ]
 
 

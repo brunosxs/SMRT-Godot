@@ -20,7 +20,7 @@
 # SOFTWARE.
 # ------------------------------------------------------------------------------
 
-extends Patch9Frame
+extends NinePatchRect
 
 #Declared variables:
 
@@ -33,10 +33,10 @@ var MIDDLE
 var BOTTOM
 
 # EXPORTED VARS =====>
-export (Sample) var beep_WAV = preload("res://addons/SMRT/beep_letter.wav")
+export (AudioStreamSample) var beep_WAV = preload("res://addons/SMRT/beep_letter.wav")
 export (DynamicFont) var font = preload("res://addons/SMRT/font/main_font.tres")
 export (int) var font_size = 32
-export (SpriteFrames) var face_sprites = preload("res://addons/SMRT/faces/dialog.tres")
+export (SpriteFrames) var face_sprites
 export (Texture) var next_dialog_texture = preload("res://addons/SMRT/next_line.png")
 export var dialog_frame_height = 4
 var face_v_pos = 0
@@ -79,7 +79,7 @@ var info = {chapter = null, dialog = null, last_text_index = null, total_text = 
 var dimensions = {"box_rectangle": null, "text_rectangle": null, "font_size": null, "text_margin":{"left": null, "right": null, "top":null, "bottom":null}}
 
 
-onready var audio = get_node("SamplePlayer")
+onready var audio = get_node("AudioStreamPlayer")
 	#Get the label object in which the text will be displayed to the user
 onready var textObj= get_node("text_display")
 	#The "Press button" to continue
@@ -94,14 +94,14 @@ onready var anim = get_node("anim")
 func _ready():
 	language = load_language(language)
 	
+	
 	#defaults
 	if beep_WAV == null:
 		if show_debug_messages:
-			print("Beep sound file not found, loading default")
-		preload("res://addons/SMRT/beep_letter.wav")
-	var beep = SampleLibrary.new()
-	beep.add_sample("beep_letter", beep_WAV)
-	audio.set_sample_library(beep)
+			beep_WAV = preload("res://addons/SMRT/beep_letter.wav")
+			pass
+	
+	audio.stream = beep_WAV
 	if font == null:
 		if show_debug_messages:
 			print("Font file not found, loading default")
@@ -109,10 +109,9 @@ func _ready():
 		
 	if face_sprites == null:
 		if show_debug_messages:
-			print("Face sprites file not found, loading default")
-		preload("res://addons/SMRT/faces/dialog.tres")
-		
-	face.set_sprite_frames(face_sprites)
+			print("Face sprites file not found")
+	else:
+		face.set_sprite_frames(face_sprites)
 	if next_dialog_texture == null:
 		preload("res://addons/SMRT/next_line.png")
 	nextLine.set_texture(next_dialog_texture)
@@ -149,16 +148,13 @@ func load_language(lang_file="res://addons/SMRT/example.lan"):
 			print("Found dialog file" , lang_file)
 		var temp_lang = file.get_as_text()
 		var dictionary = {}
-		dictionary.parse_json(temp_lang)
-		return dictionary
-	else:
-		if show_debug_messages:
-			print("Error loading dialog file")
-		var temp_lang = {"Problem":{"Debug":[{"beep_pitch":1, "face_position":1, "beep":true, "text":"Error loading the language file!", "enable_question":false, "typewriter_speed":0.05, "typewriter":true, "frame_position":1, "face_frame":1}]}}
-		var dictionary = {}
-		dictionary.parse_json(temp_lang)
-		
-		return dictionary
+		dictionary = JSON.parse(temp_lang)
+		if typeof(dictionary.result) == TYPE_DICTIONARY:
+			return dictionary.result
+		else:
+			if show_debug_messages:
+				print("Error loading dialog file")
+			return
 
 func store_dimensions():
 	dimensions.box_rectangle = get_rect()
@@ -218,8 +214,8 @@ func show_text(chapter, dialog, start_at = 0):
 	if show_debug_messages:
 		print("Starting the dialog system")
 	on_dialog = true
-	if is_hidden():
-		show()
+	if not visible:
+		visible = true
 	finished = false
 	side = 0
 	nextLine.hide()
@@ -271,7 +267,8 @@ func show_text(chapter, dialog, start_at = 0):
 		text = parser(dialog_array[start_at].text)
 		textObj.set_bbcode(text)
 		textObj.set_visible_characters(-1)
-		var screen_res = get_tree().get_root().get_rect()
+		var screen_res = OS.get_real_window_size()
+		print("This is the screen res: ", screen_res)
 		
 		
 #		SPEED
@@ -291,25 +288,25 @@ func show_text(chapter, dialog, start_at = 0):
 #			audio.play("beep_letter")
 		
 		
-		set_size(Vector2(screen_res.size.x,screen_res.size.y/dialog_frame_height))
-		textObj.set_size(get_size())
-		textObj.set_margin(0, 16)
-		textObj.set_margin(1, 8)
-		textObj.set_margin(2, 16)
-		textObj.set_margin(3, 8)
-		font.set_size(font_size)
-		nextLine.set_pos(get_size()-nextLine.get_size())
+		rect_size = (Vector2(screen_res.x,screen_res.y/dialog_frame_height))
+		textObj.rect_size = rect_size
+		textObj.margin_right = 16
+		textObj.margin_bottom = 8
+		textObj.margin_left = 16
+		textObj.margin_top = 8
+		font.size = font_size
+		nextLine.rect_position = rect_size-nextLine.rect_size
 
 		#POSITION if the dialog is not bubble
 		if position==0:
-			set_pos(Vector2(0,0))
+			rect_position = Vector2(0,0)
 		elif position==1:
-			set_pos(Vector2(0,screen_res.size.y/2)-Vector2(0,get_size().y/2))
+			rect_position = Vector2(0,screen_res.y/2)-Vector2(0,rect_size.y/2)
 		
 		elif position==2:
-			self.set_pos(Vector2(0,screen_res.size.y-(get_size().y)))
-		var size = get_size().x
-		face_v_pos = get_size().y/2 - (texture_height/2)
+			rect_position = Vector2(0,screen_res.y-(get_size().y))
+		var size = rect_size.x
+		face_v_pos = rect_size.y/2 - (texture_height/2)
 		if show_debug_messages:
 			print("FACE V POS ", face_v_pos)
 		if side == 0:
@@ -335,16 +332,17 @@ func show_text(chapter, dialog, start_at = 0):
 				textObj.set_visible_characters(textObj.get_total_character_count())
 			#Play beep sound for each character
 			if beep:
-				audio.set_default_pitch_scale(beep_pitch)
-				audio.play("beep_letter")
-				if show_debug_messages:
-					print("Playing beep")
-				#audio.set_param(1,old_beep_pitch)
-			textObj.set_visible_characters(textObj.get_visible_characters()+ 1)
-			timer.set_wait_time(speed)
+#				audio.set_default_pitch_scale(beep_pitch)
+#				audio.play("beep_letter")
+#				if show_debug_messages:
+#					print("Playing beep")
+#				#audio.set_param(1,old_beep_pitch)
+				pass
+			textObj.visible_characters = textObj.visible_characters + 1
+			timer.wait_time = speed
 			timer.start()
 			yield(timer, "timeout") #So, it will only happen if it is false at first
-		if textObj.get_total_character_count() <= textObj.get_visible_characters():# and not finished and start_at < dialog_array.size()-1:
+		if textObj.get_total_character_count() <= textObj.visible_characters:# and not finished and start_at < dialog_array.size()-1:
 			get_node("nextLine/animation").play("idle")
 			if show_debug_messages:
 				print("Finished text display")
@@ -372,7 +370,7 @@ func show_text(chapter, dialog, start_at = 0):
 func question(answer_array):
 	if show_debug_messages:
 		print("STARTED QUESTION FUNCTION")
-	btn_answers = ButtonGroup.new()
+	btn_answers = VBoxContainer.new()
 	btn_answers.set_alignment(HALIGN_LEFT)
 	
 	btn_answers.set_anchor(MARGIN_LEFT, ANCHOR_BEGIN)
@@ -451,7 +449,7 @@ func stop():
 	if show_debug_messages:
 		print("Stopping smrt godot")
 	if typeof(btn_answers) != TYPE_NIL:
-		if btn_answers extends HButtonArray:
+		if btn_answers is ButtonGroup:
 			btn_answers.queue_free()
 	reset()
 
@@ -470,14 +468,14 @@ func parser(string_to_change):
 			var part
 			index = b
 			sub["start"] = index
-			var b = string_to_change.find("}}", index)
+			b = string_to_change.find("}}", index)
 			part = string_to_change.substr(part_start, sub["start"]-part_start)
 			new_string += part
 			if b != -1:
 				sub["end"] = b
 				sub["string"] = string_to_change.substr(sub["start"]+2, sub["end"] - sub["start"]-2)
-				if Globals.has(sub["string"]):
-					var dynamic_value = Globals.get(sub["string"])
+				if ProjectSettings.has_setting(sub["string"]):
+					var dynamic_value = ProjectSettings.get_setting(sub["string"])
 
 					string_to_change.erase(0, sub["end"])
 					if show_debug_messages:

@@ -9,13 +9,12 @@ var can_talk = true
 var area
 onready var SMRT = get_parent().get_node("CanvasLayer/dialog")
 func _ready():
-	set_fixed_process(true)
 	area = get_node("Area2D")
 	area.connect("body_enter", self, "contact")
 	SMRT.connect("dialog_control", self, "do_things")
 	area
 
-func _fixed_process(delta):
+func _physics_process(delta):
 	if is_player:
 		if Input.is_action_pressed("player_right"):
 			set_pos(Vector2(get_pos().x + 1, get_pos().y))
@@ -29,7 +28,7 @@ func _fixed_process(delta):
 
 func contact(body):
 	print("STARTED!")
-	if body extends load("res://examples/interact/character.gd"):
+	if body is load("res://examples/interact/character.gd"):
 		if is_player and can_talk and not body.is_player: # Check if body.is_player so the dialog won't start with the char player itself.
 			can_talk = false
 			print("NAME OF THE BODY: ",body.get_name())
@@ -40,7 +39,7 @@ func contact(body):
 			area.connect("body_exit", self, "no_contact")
 	
 func no_contact(body):
-	if body extends get_script():
+	if body is get_script():
 		if is_player and not can_talk:
 			can_talk = true
 			area.disconnect("body_exit", self, "no_contact")

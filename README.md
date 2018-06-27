@@ -1,4 +1,3 @@
-
 Consider making a donation to support my work:
 
 [![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=E8MZDXACW43A2)
@@ -23,11 +22,10 @@ It is also ~~most likely~~ responsive and resolution independent.
 
 ## Installing
 
-**Needs Godot 2.1 or newer**
-**Not tested under Godot 3.0**
+**Needs Godot 3 or newer**
 
-
-<a href= "http://www.godotengine.com">Godot's Website</a>
+[Godot's Website]
+(http://www.godotengine.com)
 
 On your project's root, create an "addons" folder
 
@@ -37,11 +35,13 @@ Open your project in Godot, go to `Project Settings`, click on the `Plugins` tab
 
 ## How does it work?
 
-<a href="https://github.com/brunosxs/SMRT-Godot/wiki">See the wiki</a>
+[See the wiki]
+(https://github.com/brunosxs/SMRT-Godot/wiki)
 
 ## Special Thanks
 
-<a href="http://www.tepidmonkey.com"> tepidmonkey</a>
+[tepidmonkey]
+(http://www.tepidmonkey.com)
 
 @MarianoGnu for a lot of help while I coded, thanks a lot dude.
 

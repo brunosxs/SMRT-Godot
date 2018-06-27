@@ -149,8 +149,8 @@ func load_file():
 	if file.open(language_file,file.READ) == OK:
 		#this means it sucesfully opened
 		var dictionary = {}
-		if dictionary.parse_json(file.get_as_text()) == OK:
-			dictionary.parse_json(file.get_as_text())
+		if JSON.parse(file.get_as_text()) == OK:
+			dictionary = JSON.parse(file.get_as_text())
 			contents = dictionary
 			get_chapters()
 			dialog_list.clear()
@@ -172,7 +172,7 @@ func save_file(content):
 		selector.popup_centered(Vector2(800,600))
 		language_file = yield(selector,"file_selected")
 	if file.open(language_file, file.WRITE) == OK:
-		file.store_string(content.to_json())
+		file.store_string(JSON.print(content))
 		messages.set_text(messages_db["File saved successfully"][0])
 		messages.set("custom_colors/font_color", messages_db["File saved successfully"][1])
 		file.close()
