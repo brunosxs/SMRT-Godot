@@ -23,8 +23,7 @@ It is also ~~most likely~~ responsive and resolution independent.
 
 ## Installing
 
-**Needs Godot 2.1 or newer**
-**Not tested under Godot 3.0**
+**COMPATIBLE ONLY WITH GODOT 2.X**
 
 
 <a href= "http://www.godotengine.com">Godot's Website</a>
