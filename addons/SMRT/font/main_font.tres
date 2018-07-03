@@ -1,9 +1,12 @@
-[gd_resource type="DynamicFont" load_steps=2 format=1]
+[gd_resource type="DynamicFont" load_steps=2 format=2]
 
 [ext_resource path="res://addons/SMRT/font/zig_____.ttf" type="DynamicFontData" id=1]
 
 [resource]
 
-font/size = 12
-font/font = ExtResource( 1 )
+size = 10
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 1 )
+_sections_unfolded = [ "Font", "Font/fallback", "Settings" ]
 

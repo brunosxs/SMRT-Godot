@@ -10,20 +10,20 @@ var area
 onready var SMRT = get_parent().get_node("CanvasLayer/dialog")
 func _ready():
 	area = get_node("Area2D")
-	area.connect("body_enter", self, "contact")
+	area.connect("body_entered", self, "contact")
 	SMRT.connect("dialog_control", self, "do_things")
 	area
 
 func _physics_process(delta):
 	if is_player:
 		if Input.is_action_pressed("player_right"):
-			set_pos(Vector2(get_pos().x + 1, get_pos().y))
+			position = (Vector2(get_pos().x + 1, get_pos().y))
 		elif Input.is_action_pressed("player_left"):
-			set_pos(Vector2(get_pos().x - 1, get_pos().y))
+			position = (Vector2(get_pos().x - 1, get_pos().y))
 		elif Input.is_action_pressed("player_up"):
-			set_pos(Vector2(get_pos().x, get_pos().y-1))
+			position = (Vector2(get_pos().x, get_pos().y-1))
 		elif Input.is_action_pressed("player_down"):
-			set_pos(Vector2(get_pos().x, get_pos().y+1))
+			position = (Vector2(get_pos().x, get_pos().y+1))
 	
 
 func contact(body):

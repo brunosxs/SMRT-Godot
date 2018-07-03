@@ -93,7 +93,7 @@ onready var anim = get_node("anim")
 
 func _ready():
 	language = load_language(language)
-	
+	print("VIEWPORT RECTANGLE ",get_viewport_rect().size)
 	
 	#defaults
 	if beep_WAV == null:
@@ -121,7 +121,6 @@ func _ready():
 	#Reset textObj	
 	#Start the magic	
 	set_process_input(true)
-	set_process_input(true)
 	store_dimensions()
 	store_margins()
 	
@@ -134,7 +133,8 @@ func reset():
 	position= null
 	side = null
 	answer_number = null
-	textObj.set_bbcode("")
+	textObj.bbcode_enabled = true
+	textObj.bbcode_text = ""
 	dialog_array = []
 	
 	
@@ -218,9 +218,9 @@ func show_text(chapter, dialog, start_at = 0):
 		visible = true
 	finished = false
 	side = 0
-	nextLine.hide()
+	nextLine.visible = false
 	textObj.set_bbcode("")
-	face.hide()
+	face.visible = false
 #	ERROR checking
 	if dialog_array == null or dialog_array.empty():
 		yield(get_tree(),"idle_frame") # fix for signal not registering at the same loop
@@ -230,13 +230,13 @@ func show_text(chapter, dialog, start_at = 0):
 		return
 #	POSITION VARS:
 	TOP= Vector2(0,0)
-	MIDDLE = (get_viewport_rect().size/2)-Vector2(0,get_size().y)
-	BOTTOM = (get_viewport_rect().size)-Vector2(0,get_size().y)	
+	MIDDLE = (get_viewport_rect().size/2)-Vector2(0,rect_size.y)
+	BOTTOM = (get_viewport_rect().size)-Vector2(0,rect_size.y)	
 #	A while loop that goes over each array value inside of dialog_array 
 #	based on the start_at parameter
 	while on_dialog and start_at < dialog_array.size():
 		textObj.add_font_override("normal_font", font)
-		nextLine.hide()
+		nextLine.visible = false
 #		Gets the values to be reseted at the end of the loop
 		# ERROR CHECKING:
 		if show_debug_messages:
@@ -255,19 +255,19 @@ func show_text(chapter, dialog, start_at = 0):
 		if dialog_array[start_at].has("face_frame"):
 			if typeof(dialog_array[start_at].face_frame) == TYPE_REAL or typeof(dialog_array[start_at].face_position) == TYPE_INT:
 				face.set_frame(int(dialog_array[start_at].face_frame))
-				face.show()
+				face.visible = true
 		if dialog_array[start_at].has("face_position"):
 			side = dialog_array[start_at].face_position
 	
 			face.show()
-		texture_width = face.get_sprite_frames().get_frame(face.get_animation(), face.get_frame()).get_width()
-		texture_height = face.get_sprite_frames().get_frame(face.get_animation(), face.get_frame()).get_height()
+		texture_width = face.frames.get_frame(face.animation, int(dialog_array[start_at].face_frame)).get_width()
+		texture_height = face.frames.get_frame(face.animation, int(dialog_array[start_at].face_frame)).get_height()
 #		Side of the dialog to display the face
 #		RESETING THE DIALOG	
 		text = parser(dialog_array[start_at].text)
-		textObj.set_bbcode(text)
+		textObj.bbcode_text = text
 		textObj.set_visible_characters(-1)
-		var screen_res = OS.get_real_window_size()
+		var screen_res = get_viewport_rect().size
 		print("This is the screen res: ", screen_res)
 		
 		
@@ -307,26 +307,28 @@ func show_text(chapter, dialog, start_at = 0):
 			rect_position = Vector2(0,screen_res.y-(get_size().y))
 		var size = rect_size.x
 		face_v_pos = rect_size.y/2 - (texture_height/2)
+		print("The text is: ", textObj.text)
 		if show_debug_messages:
 			print("FACE V POS ", face_v_pos)
+			# no image
 		if side == 0:
-			textObj.set_margin(0, dimensions.text_margin.left)
-			textObj.set_margin(1, dimensions.text_margin.top)
-			textObj.set_margin(2, dimensions.text_margin.right)
-			textObj.set_margin(3, dimensions.text_margin.bottom)
-			face.hide()
+			textObj.margin_left =  dimensions.text_margin.left
+			textObj.margin_top = dimensions.text_margin.top
+			textObj.margin_right = dimensions.text_margin.right
+			textObj.margin_bottom = dimensions.text_margin.bottom
+			face.visible = false
+			#left side image
 		elif side == 1:
-			textObj.set_margin(0, texture_width + texture_width/3)
-			textObj.set_margin(2, dimensions.text_margin.right)
-			face.set_pos(Vector2(8,face_v_pos))
-			face.set_flip_h(false)
-			face.show()
+			textObj.margin_left =  texture_width + texture_width/3
+			textObj.margin_right = dimensions.text_margin.right
+			face.position = Vector2(8+texture_width/2,face_v_pos)
+			face.flip_h  = false
+			face.visible = true
 		elif side == 2:
-			textObj.set_margin(2, texture_width + texture_width/3)
-			textObj.set_margin(0, dimensions.text_margin.left)
-			face.set_pos(Vector2(get_size().x-texture_width-8,face_v_pos))
-			face.set_flip_h(true)
-			face.show()
+			textObj.margin_left = dimensions.text_margin.left
+			textObj.margin_right = texture_width + texture_width/3
+			face.position = Vector2(rect_size.x-texture_width-8,face_v_pos)
+			face.flip_h = true
 		while textObj.get_total_character_count() > textObj.get_visible_characters():
 			if not typewriter:
 				textObj.set_visible_characters(textObj.get_total_character_count())
@@ -343,7 +345,7 @@ func show_text(chapter, dialog, start_at = 0):
 			timer.start()
 			yield(timer, "timeout") #So, it will only happen if it is false at first
 		if textObj.get_total_character_count() <= textObj.visible_characters:# and not finished and start_at < dialog_array.size()-1:
-			get_node("nextLine/animation").play("idle")
+			get_node("nextLine/AnimationPlayer").play("idle")
 			if show_debug_messages:
 				print("Finished text display")
 			finished = true
@@ -365,7 +367,7 @@ func show_text(chapter, dialog, start_at = 0):
 		print("SMRT finished displaying all the dialog")
 	emit_signal("finished")
 	beep_pitch = 1.0
-	self.hide()
+	visible = false
 
 func question(answer_array):
 	if show_debug_messages:
@@ -378,10 +380,10 @@ func question(answer_array):
 	btn_answers.set_anchor(MARGIN_RIGHT, ANCHOR_END)
 	btn_answers.set_anchor(MARGIN_BOTTOM, ANCHOR_END)
 	
-	dialog_dup = self.duplicate()
-	dialog_dup.set_pos(btn_answers.get_pos())
-	dialog_dup.set_opacity(0)
-	btn_answers.set_pos(Vector2(0,0))
+	dialog_dup = duplicate()
+	dialog_dup.rect_size = btn_answers.rect_position
+	dialog_dup.visible = false
+	btn_answers.rect_position = (Vector2(0,0))
 	dialog_dup.set_script(null)
 	add_child(dialog_dup)
 	for child in dialog_dup.get_children():
@@ -389,44 +391,42 @@ func question(answer_array):
 	remove_child(btn_answers)
 	dialog_dup.add_child(btn_answers)
 	btn_answers.grab_focus()
-	btn_answers.set_size(Vector2(0,0))
-	
-	btn_answers.connect("button_selected", self, "selected_answer")
+	btn_answers.rect_size = (Vector2(0,0))
 	if position <= 1:
-		dialog_dup.set_pos(Vector2(textObj.get_pos().x, get_rect().size.y/2))
+		dialog_dup.rect_position = (Vector2(textObj.rect_position.x, get_viewport_rect().size.y/2))
 	else:
 		#question will appear on top of the dialog
-		dialog_dup.set_pos(Vector2(textObj.get_pos().x, get_rect().size.y*-1))
+		dialog_dup.rect_position = (Vector2(textObj.rect_position.x, rect_size.y*-1))
 	var index = 0
 	for answer in answer_array:
-		yield(get_tree(),"idle_frame")
 		var b = Button.new()
 		b.set_text(answer)
 		b.add_font_override("font", font)
 		b.set_flat(true)
-		b.add_style_override("normal", StyleBoxEmpty.new())
-		b.add_style_override("selected", StyleBoxEmpty.new())
-		b.add_style_override("pressed", StyleBoxEmpty.new())
-		b.add_style_override("hover", StyleBoxEmpty.new())
+		b.add_stylebox_override("normal", StyleBox)
+		b.add_stylebox_override("selected", StyleBox)
+		b.add_stylebox_override("pressed", StyleBox)
+		b.add_stylebox_override("hover", StyleBox)
 		b.add_font_override("font_selected", font)
-#		b.set_h_size_flags(0)
 		btn_answers.add_child(b)
-#		if index > 0:
-#			var last_child = btn_answers.get_child(index-1)
-#			b.set_focus_neighbour(MARGIN_TOP,last_child.get_path())
-#		index+=1
+		b.connect("pressed",self,"selected_answer",[index])
+		if index > 0:
+			var last_child = btn_answers.get_child(index-1)
+			b.set_focus_neighbour(MARGIN_TOP,last_child.get_path())
+			btn_answers.rect_size.y += b.rect_size
+			index+=1
+	
+	yield(get_tree(),"idle_frame")
 	btn_answers.get_children()[0].grab_focus()
-	btn_answers.update()
 	yield(get_tree(), "idle_frame")
-	dialog_dup.set_size(Vector2(get_size().x/2,btn_answers.get_size().y))
-	dialog_dup.update()
 	btn_answers.set_margin(MARGIN_RIGHT, 0)
-	dialog_dup.set_opacity(1)
+	dialog_dup.visible = true
+	dialog_dup.rect_size = btn_answers.rect_size
 
 func selected_answer(btn):
 	if show_debug_messages:
 		print("Answer selected: ", btn)
-	answer_number = btn.get_index()
+	answer_number = btn
 	info.answer = answer_number
 	answer_number = null
 	emit_signal("dialog_control", info)
@@ -440,7 +440,7 @@ func _input(event):
 	if not event.is_echo() and event.is_action_pressed("ui_accept"):
 		if textObj.get_total_character_count() > textObj.get_visible_characters() and on_dialog:
 			textObj.set_visible_characters(textObj.get_total_character_count())
-			audio.play("beep_letter")
+			# TODO BEEP SFX
 	if finished and not event.is_echo() and event.is_action_pressed("ui_accept"):
 		emit_signal("dialog_control", info)
 	

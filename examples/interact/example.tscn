@@ -30,6 +30,7 @@ beep_WAV = ExtResource( 3 )
 [node name="char" parent="." index="1" instance=ExtResource( 4 )]
 
 editor/display_folded = true
+is_player = true
 
 [node name="Camera2D" type="Camera2D" parent="char" index="3"]
 
@@ -66,8 +67,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 500.0
-margin_bottom = 40.0
+margin_left = -504.0
+margin_top = -292.0
+margin_right = -4.0
+margin_bottom = -249.0
 rect_min_size = Vector2( 500, 40 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -83,8 +86,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
+margin_top = 19.0
 margin_right = 160.0
-margin_bottom = 24.0
+margin_bottom = 43.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -106,6 +110,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
+margin_top = 6.0
+margin_right = 81.0
+margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -207,6 +214,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = SubResource( 1 )
+text = "Example 3"
 flat = false
 align = 1
 _sections_unfolded = [ "Rect" ]

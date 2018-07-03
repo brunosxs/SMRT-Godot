@@ -22,7 +22,6 @@
 
 # init script that sets everything up
 # Nothing (that I think) worth mentioning here
-
 tool
 extends EditorPlugin
 
@@ -39,9 +38,7 @@ func _ready():
 	editor_btn.set_button_icon(preload("icon.png"))
 	editor_btn.set_text("SMRT-Editor")
 	editor_btn.connect("pressed",self,"_open_editor")
-	editor_btn.hide()
-	selection = get_selection()
-	selection.connect("selection_changed", self, "_selection_changed")
+	editor_btn.visible = true
 
 func _enter_tree():
 	add_control_to_container(CONTAINER_CANVAS_EDITOR_MENU,editor_btn)
@@ -67,7 +64,7 @@ func _open_editor():
 
 func _selection_changed():
 	for select in selection.get_selected_nodes():
-		if select extends preload("res://addons/SMRT/dialog.gd"):
-			editor_btn.show()
+		if select is preload("res://addons/SMRT/dialog.gd"):
+			editor_btn.visible = true
 			return
-	editor_btn.hide()
+	editor_btn.visible = false

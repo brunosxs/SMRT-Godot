@@ -20,10 +20,11 @@ func connect_buttons():
 	var i = 0
 	for b in buttons.get_children():
 		b.connect("pressed", self, "selected_option",[i])
+		i+=1
 
 func selected_option(btn):
 	get_node("VBoxContainer/Button").group.get_pressed_button()
-	buttons.release_focus()
+	buttons.get_child(btn).release_focus()
 	if not SMRT.on_dialog:
 		if btn == 0:
 			SMRT.show_text("INTRO","OLD MAN", 0)
