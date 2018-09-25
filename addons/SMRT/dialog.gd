@@ -93,7 +93,8 @@ onready var anim = get_node("anim")
 
 func _ready():
 	language = load_language(language)
-	print("VIEWPORT RECTANGLE ",get_viewport_rect().size)
+	if show_debug_messages:
+		print("VIEWPORT RECTANGLE ",get_viewport_rect().size)
 	
 	#defaults
 	if beep_WAV == null:
@@ -307,8 +308,9 @@ func show_text(chapter, dialog, start_at = 0):
 			rect_position = Vector2(0,screen_res.y-(get_size().y))
 		var size = rect_size.x
 		face_v_pos = rect_size.y/2 - (texture_height/2)
-		print("The text is: ", textObj.text)
+		
 		if show_debug_messages:
+			print("The text is: ", textObj.text)
 			print("FACE V POS ", face_v_pos)
 			# no image
 		if side == 0:
@@ -334,11 +336,12 @@ func show_text(chapter, dialog, start_at = 0):
 				textObj.set_visible_characters(textObj.get_total_character_count())
 			#Play beep sound for each character
 			if beep:
-#				audio.set_default_pitch_scale(beep_pitch)
-#				audio.play("beep_letter")
-#				if show_debug_messages:
+				#audio.set_default_pitch_scale(beep_pitch)
+				audio.pitch_scale = beep_pitch
+				audio.play()
+				#if show_debug_messages:
 #					print("Playing beep")
-#				#audio.set_param(1,old_beep_pitch)
+				#audio.set_param(1,old_beep_pitch)
 				pass
 			textObj.visible_characters = textObj.visible_characters + 1
 			timer.wait_time = speed
