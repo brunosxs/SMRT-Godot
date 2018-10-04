@@ -48,17 +48,27 @@ var messages_db = {
 
 # Controls
 # Loved to hate GUI programming... :)
-onready var mainButtons = get_node("VBoxContainer/PanelContainer/HBoxContainer/MainControlButtons")
+onready var newButton = get_node("VBoxContainer/PanelContainer/HBoxContainer/new")
+onready var loadButton = get_node("VBoxContainer/PanelContainer/HBoxContainer/load")
+onready var saveButton = get_node("VBoxContainer/PanelContainer/HBoxContainer/save")
+onready var helpButton = get_node("VBoxContainer/PanelContainer/HBoxContainer/help")
 onready var info = get_node("VBoxContainer/PanelContainer/HBoxContainer/info")
 var chapter_list
-onready var chapter_list_buttons = get_node("VBoxContainer/HBoxContainer/ChapterContainer/VBoxContainer/HButtonArray")
-onready var chapter_list_buttons_del_edit = get_node("VBoxContainer/HBoxContainer/ChapterContainer/VBoxContainer/DelEdit")
+onready var chapter_list_add = get_node("VBoxContainer/HBoxContainer/ChapterContainer/ChapterList/GridContainer/Add")
+onready var chapter_list_dup = get_node("VBoxContainer/HBoxContainer/ChapterContainer/ChapterList/GridContainer/Dup")
+onready var chapter_list_del = get_node("VBoxContainer/HBoxContainer/ChapterContainer/ChapterList/GridContainer/Del")
+onready var chapter_list_edit = get_node("VBoxContainer/HBoxContainer/ChapterContainer/ChapterList/GridContainer/Edit")
 var dialog_list
-onready var dialog_list_buttons = get_node("VBoxContainer/HBoxContainer/DialogContainer/VBoxContainer/HButtonArray")
-onready var dialog_list_buttons_del_edit = get_node("VBoxContainer/HBoxContainer/DialogContainer/VBoxContainer/DelEdit")
+onready var dialog_list_add = get_node("VBoxContainer/HBoxContainer/DialogContainer/DialogList/GridContainer/Add")
+onready var dialog_list_dup = get_node("VBoxContainer/HBoxContainer/DialogContainer/DialogList/GridContainer/Dup")
+onready var dialog_list_del = get_node("VBoxContainer/HBoxContainer/DialogContainer/DialogList/GridContainer/Del")
+onready var dialog_list_edit = get_node("VBoxContainer/HBoxContainer/DialogContainer/DialogList/GridContainer/Edit")
 var text_list
-onready var text_list_buttons = get_node("VBoxContainer/HBoxContainer/TextContainer/VBoxContainer/HButtonArray")
-onready var text_list_move_buttons = get_node("VBoxContainer/HBoxContainer/TextContainer/VBoxContainer/MoveText")
+onready var text_list_add = get_node("VBoxContainer/HBoxContainer/TextContainer/Message/GridContainer/Add")
+onready var text_list_dup = get_node("VBoxContainer/HBoxContainer/TextContainer/Message/GridContainer/Dup")
+onready var text_list_del = get_node("VBoxContainer/HBoxContainer/TextContainer/Message/GridContainer/Del")
+onready var text_list_up = get_node("VBoxContainer/HBoxContainer/TextContainer/Message/GridContainer/up")
+onready var text_list_down = get_node("VBoxContainer/HBoxContainer/TextContainer/Message/GridContainer/down")
 var frame_position
 onready var face_position = get_node("VBoxContainer/HBoxContainer/GridContainer/Face/VBoxContainer/side")
 onready var face_frame = get_node("VBoxContainer/HBoxContainer/GridContainer/Face/VBoxContainer/FaceFrame")
@@ -66,8 +76,8 @@ onready var typewriter = get_node("VBoxContainer/HBoxContainer/GridContainer/Typ
 onready var typewriter_speed = get_node("VBoxContainer/HBoxContainer/GridContainer/Typewriter/VBoxContainer/HBoxContainer/TypewriterSpeed")
 onready var beep = get_node("VBoxContainer/HBoxContainer/GridContainer/Typewriter/VBoxContainer/beep")
 onready var beep_pitch = get_node("VBoxContainer/HBoxContainer/GridContainer/Typewriter/VBoxContainer/SpinBox")
-onready var textEditor = get_node("VBoxContainer/TextPanel/VBoxContainer/HBoxContainer 2/TextEdit")
-onready var textButtons = get_node("VBoxContainer/TextPanel/VBoxContainer/HBoxContainer 2/VButtonArray")
+onready var textEditor = get_node("VBoxContainer/TextPanel/VBoxContainer/HBoxContainer2/TextEdit")
+onready var textButtons = get_node("VBoxContainer/TextPanel/VBoxContainer/HBoxContainer2/Button")
 onready var enableQuestion = get_node("VBoxContainer/CheckButton")
 onready var question = get_node("VBoxContainer/question")
 onready var choicesNumber = get_node("VBoxContainer/question/VBoxContainer/choicesNumber")
@@ -88,23 +98,39 @@ var old_text
 func _ready():
 	
 	choicesNumber.connect("value_changed", self, "manageQuestionOptions")
-	chapter_list = get_node("VBoxContainer/HBoxContainer/ChapterContainer/VBoxContainer/ItemList")
-	dialog_list = get_node("VBoxContainer/HBoxContainer/DialogContainer/VBoxContainer/ItemList")
-	text_list = get_node("VBoxContainer/HBoxContainer/TextContainer/VBoxContainer/ItemList")
+	chapter_list = get_node("VBoxContainer/HBoxContainer/ChapterContainer/ChapterList/ItemList")
+	dialog_list = get_node("VBoxContainer/HBoxContainer/DialogContainer/DialogList/ItemList")
+	text_list = get_node("VBoxContainer/HBoxContainer/TextContainer/Message/ItemList")
 	messages = get_node("VBoxContainer/messages")
 	frame_position = get_node("VBoxContainer/HBoxContainer/GridContainer/FramePosition1/VBoxContainer/FramePosition")
 	
-	if !mainButtons.is_connected("button_selected",self,"mainOptions"):
-		mainButtons.connect("button_selected",self,"mainOptions")
+#	if !mainButtons.is_connected("button_selected",self,"mainOptions"):
+#		mainButtons.connect("button_selected",self,"mainOptions")
+
+	if !newButton.is_connected("button_selected",self,"mainOptions"):
+		newButton.connect("pressed",self,"mainOptions", [0])
+	if !loadButton.is_connected("pressed",self,"mainOptions"):
+		loadButton.connect("pressed",self,"mainOptions", [1])
+	if !saveButton.is_connected("pressed",self,"mainOptions"):
+		saveButton.connect("pressed",self,"mainOptions", [2])
+	if !helpButton.is_connected("pressed",self,"mainOptions"):
+		helpButton.connect("pressed",self,"mainOptions", [3])
 		
 #	CONNECTIONS
 	chapter_list.connect("item_selected",self,"selected_chapter")
-	text_list_buttons.connect("button_selected",self,"text_list_buttons")
-	dialog_list_buttons.connect("button_selected",self,"dialog_options")
-	dialog_list_buttons_del_edit.connect("button_selected",self,"dialog_options_2")
-	chapter_list_buttons.connect("button_selected",self,"chapter_options")
-	chapter_list_buttons_del_edit.connect("button_selected",self,"chapter_options_2")
-	text_list_move_buttons.connect("button_selected",self,"moveText")
+	text_list_add.connect("pressed",self,"text_list_buttons", [0])
+	text_list_dup.connect("pressed",self,"text_list_buttons", [1])
+	text_list_del.connect("pressed",self,"text_list_buttons", [2])
+	dialog_list_add.connect("pressed",self,"dialog_options", [0])
+	dialog_list_dup.connect("pressed",self,"dialog_options", [1])
+	dialog_list_del.connect("pressed",self,"dialog_options", [2])
+	dialog_list_edit.connect("pressed",self,"dialog_options", [3])
+	chapter_list_add.connect("pressed",self,"chapter_options", [0])
+	chapter_list_dup.connect("pressed",self,"chapter_options", [1])
+	chapter_list_del.connect("pressed",self,"chapter_options", [2])
+	chapter_list_edit.connect("pressed",self,"chapter_options", [3])
+	text_list_up.connect("pressed",self,"moveText", [0])
+	text_list_down.connect("pressed",self,"moveText", [1])
 	
 	textButtons.connect("button_selected",self, "selectedTextButtons")
 	
@@ -122,7 +148,7 @@ func to_memory():
 	if currentChapter != null and currentDialog != null and currentText != null:
 		agregate(currentText)
 
-func mainOptions(btn_index):# overrides the arguments
+func mainOptions(btn_index):
 	if btn_index == 0:
 		language_file = null
 		contents = {}
@@ -198,18 +224,13 @@ func chapter_options(btn_index):
 		add_child(input)
 		input.label.set_text("Name the chapter")
 		create_chapter(yield(input, "text"))
-		pass
 	elif btn_index == 1:
 		if currentChapter != null or currentChapter !="":
 			duplicate_chapter(currentChapter)
-
-func chapter_options_2(btn_index):
-	currentDialog = null
-	currentText = null
-	if btn_index == 0:
+	elif btn_index == 2:
 		if currentChapter != null or currentChapter !="":
 			remove_chapter(currentChapter)
-	elif btn_index == 1:
+	elif btn_index == 3:
 		print("Renaming Chapter")
 		if currentChapter != null or currentChapter !="":
 			var input = input_tscn.instance()
@@ -219,6 +240,23 @@ func chapter_options_2(btn_index):
 			dialog_list.clear()
 			text_list.clear()
 			get_chapters()
+
+#func chapter_options_2(btn_index):
+#	currentDialog = null
+#	currentText = null
+#	if btn_index == 0:
+#		if currentChapter != null or currentChapter !="":
+#			remove_chapter(currentChapter)
+#	elif btn_index == 1:
+#		print("Renaming Chapter")
+#		if currentChapter != null or currentChapter !="":
+#			var input = input_tscn.instance()
+#			add_child(input)
+#			input.label.set_text("Rename the chapter")
+#			rename_chapter(currentChapter, yield(input,"text"))
+#			dialog_list.clear()
+#			text_list.clear()
+#			get_chapters()
 
 
 func selected_chapter(selected):
@@ -326,7 +364,7 @@ func rename_chapter(old_name, name):
 func dialog_options(btn_index):
 	currentText = null
 	if currentChapter != null and currentChapter != "":
-		if btn_index ==0:
+		if btn_index == 0:
 			var input = input_tscn.instance()
 			add_child(input)
 			input.label.set_text("Name the dialog")
@@ -337,15 +375,11 @@ func dialog_options(btn_index):
 			if currentDialog != null or currentDialog !="":
 				if currentDialog != null and currentDialog != "":
 					duplicate_dialog(currentDialog)
-
-func dialog_options_2(btn_index):
-	currentText = null
-	if currentChapter != null and currentChapter != "":
-		if btn_index == 0:
+		elif btn_index == 2:
 			if currentDialog != null and currentDialog != "":
 				print("CHAPTER IS NOT NULL!")
 				remove_dialog(currentDialog)
-		elif btn_index == 1:
+		elif btn_index == 3:
 			print("Renaming Dialog")
 			if currentDialog != null or currentDialog !="":
 				var input = input_tscn.instance()
@@ -354,6 +388,23 @@ func dialog_options_2(btn_index):
 				rename_dialog(currentDialog, yield(input,"text"))
 				get_dialogs(currentChapter)
 				text_list.clear()
+
+#func dialog_options_2(btn_index):
+#	currentText = null
+#	if currentChapter != null and currentChapter != "":
+#		if btn_index == 0:
+#			if currentDialog != null and currentDialog != "":
+#				print("CHAPTER IS NOT NULL!")
+#				remove_dialog(currentDialog)
+#		elif btn_index == 1:
+#			print("Renaming Dialog")
+#			if currentDialog != null or currentDialog !="":
+#				var input = input_tscn.instance()
+#				add_child(input)
+#				input.label.set_text("Rename the dialog")
+#				rename_dialog(currentDialog, yield(input,"text"))
+#				get_dialogs(currentChapter)
+#				text_list.clear()
 
 func create_dialog(dialog_name):
 	print("Current chapter: ", contents[currentChapter], typeof(contents[currentChapter]))
