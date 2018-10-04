@@ -95,15 +95,16 @@ var answers
 
 var input_tscn=preload("res://addons/SMRT/modals/input.tscn")
 var old_text
-func _ready():
-	
-	choicesNumber.connect("value_changed", self, "manageQuestionOptions")
+
+func _init():
 	chapter_list = get_node("VBoxContainer/HBoxContainer/ChapterContainer/ChapterList/ItemList")
 	dialog_list = get_node("VBoxContainer/HBoxContainer/DialogContainer/DialogList/ItemList")
 	text_list = get_node("VBoxContainer/HBoxContainer/TextContainer/Message/ItemList")
 	messages = get_node("VBoxContainer/messages")
 	frame_position = get_node("VBoxContainer/HBoxContainer/GridContainer/FramePosition1/VBoxContainer/FramePosition")
-	
+
+func _ready():
+	choicesNumber.connect("value_changed", self, "manageQuestionOptions")
 #	if !mainButtons.is_connected("button_selected",self,"mainOptions"):
 #		mainButtons.connect("button_selected",self,"mainOptions")
 
@@ -165,7 +166,7 @@ func new_text():
 	return single_text.new().single_text
 
 func load_file():
-	var selector = EditorFileDialog.new()
+	var selector = FileDialog.new()
 	selector.add_filter("*.lan")
 	selector.set_mode(selector.MODE_OPEN_FILE)
 	add_child(selector)
@@ -189,7 +190,7 @@ func quit():
 func save_file(content):
 	var file = File.new()
 	if language_file == null:
-		var selector = EditorFileDialog.new()
+		var selector = FileDialog.new()
 		selector.add_filter("*.lan")
 		selector.set_title("Save file")
 		selector.set_mode(selector.MODE_SAVE_FILE)
@@ -370,7 +371,6 @@ func dialog_options(btn_index):
 			input.label.set_text("Name the dialog")
 			create_dialog(yield(input, "text"))
 			print(input)
-			pass
 		elif btn_index == 1:
 			if currentDialog != null or currentDialog !="":
 				if currentDialog != null and currentDialog != "":

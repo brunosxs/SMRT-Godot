@@ -30,12 +30,12 @@ var messages
 
 func _ready():
 	add_user_signal("text")
-	input = get_node("VBoxContainer/LineEdit")
-	label = get_node("VBoxContainer/Label")
-	control_buttons = get_node("VBoxContainer/HButtonArray")
+	input = get_node("PanelContainer/VBoxContainer/LineEdit")
+	label = get_node("PanelContainer/VBoxContainer/Label")
+	control_buttons = get_node("PanelContainer/VBoxContainer/Button")
 	input.connect("text_entered",self,"enter_pressed")
-	control_buttons.connect("button_selected", self, "btn_pressed")
-	messages = get_node("VBoxContainer/Label 2")
+	control_buttons.connect("pressed", self, "btn_pressed")
+	messages = get_node("PanelContainer/VBoxContainer/Label2")
 	input.connect("text_changed",self,"check_regex")
 	popup_centered(get_size())
 	
@@ -54,11 +54,10 @@ func check_regex(text):
 #	else:
 #		messages.set_text("")
 
-func btn_pressed(btn_index):
-	if btn_index == 0:
-		prepare_and_send(input.get_text())
-		hide()
-		queue_free()
+func btn_pressed():
+	prepare_and_send(input.get_text())
+	hide()
+	queue_free()
 
 
 
