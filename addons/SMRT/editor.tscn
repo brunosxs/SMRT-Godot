@@ -237,6 +237,7 @@ _sections_unfolded = [ "Anchor", "Rect" ]
 
 [node name="ChapterContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer" index="0"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -314,6 +315,7 @@ _sections_unfolded = [ "Columns", "Rect" ]
 
 [node name="GridContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer/ChapterContainer/ChapterList" index="2"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -700,6 +702,7 @@ _sections_unfolded = [ "Columns", "Rect" ]
 
 [node name="GridContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer/TextContainer/Message" index="2"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -1076,7 +1079,6 @@ suffix = ""
 
 [node name="Typewriter" type="PanelContainer" parent="VBoxContainer/HBoxContainer/GridContainer" index="2"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -1265,7 +1267,6 @@ size_flags_vertical = 1
 
 [node name="TextPanel" type="PanelContainer" parent="VBoxContainer" index="3"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -1336,7 +1337,6 @@ max_lines_visible = -1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/TextPanel/VBoxContainer" index="1"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0

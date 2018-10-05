@@ -74,7 +74,7 @@ onready var face_position = get_node("VBoxContainer/HBoxContainer/GridContainer/
 onready var face_frame = get_node("VBoxContainer/HBoxContainer/GridContainer/Face/VBoxContainer/FaceFrame")
 onready var typewriter = get_node("VBoxContainer/HBoxContainer/GridContainer/Typewriter/VBoxContainer/CheckButton")
 onready var typewriter_speed = get_node("VBoxContainer/HBoxContainer/GridContainer/Typewriter/VBoxContainer/HBoxContainer/TypewriterSpeed")
-onready var beep = get_node("VBoxContainer/HBoxContainer/GridContainer/Typewriter/VBoxContainer/beep")
+onready var beep = get_node("VBoxContainer/HBoxContainer/GridContainer/Typewriter/VBoxContainer/CheckButton")
 onready var beep_pitch = get_node("VBoxContainer/HBoxContainer/GridContainer/Typewriter/VBoxContainer/SpinBox")
 onready var textEditor = get_node("VBoxContainer/TextPanel/VBoxContainer/HBoxContainer2/TextEdit")
 onready var textButtons = get_node("VBoxContainer/TextPanel/VBoxContainer/HBoxContainer2/Button")
@@ -97,18 +97,19 @@ var input_tscn=preload("res://addons/SMRT/modals/input.tscn")
 var old_text
 
 func _init():
+	pass
+
+func _ready():
 	chapter_list = get_node("VBoxContainer/HBoxContainer/ChapterContainer/ChapterList/ItemList")
 	dialog_list = get_node("VBoxContainer/HBoxContainer/DialogContainer/DialogList/ItemList")
 	text_list = get_node("VBoxContainer/HBoxContainer/TextContainer/Message/ItemList")
 	messages = get_node("VBoxContainer/messages")
 	frame_position = get_node("VBoxContainer/HBoxContainer/GridContainer/FramePosition1/VBoxContainer/FramePosition")
-
-func _ready():
 	choicesNumber.connect("value_changed", self, "manageQuestionOptions")
-#	if !mainButtons.is_connected("button_selected",self,"mainOptions"):
-#		mainButtons.connect("button_selected",self,"mainOptions")
+#	if !mainButtons.is_connected("pressed",self,"mainOptions"):
+#		mainButtons.connect("pressed",self,"mainOptions")
 
-	if !newButton.is_connected("button_selected",self,"mainOptions"):
+	if !newButton.is_connected("pressed",self,"mainOptions"):
 		newButton.connect("pressed",self,"mainOptions", [0])
 	if !loadButton.is_connected("pressed",self,"mainOptions"):
 		loadButton.connect("pressed",self,"mainOptions", [1])
@@ -116,6 +117,10 @@ func _ready():
 		saveButton.connect("pressed",self,"mainOptions", [2])
 	if !helpButton.is_connected("pressed",self,"mainOptions"):
 		helpButton.connect("pressed",self,"mainOptions", [3])
+	if !text_list.is_connected("item_selected", self, "selected_text"):
+		text_list.connect("item_selected", self, "selected_text")
+	if !dialog_list.is_connected("item_selected", self, "selected_dialog"):
+		dialog_list.connect("item_selected", self, "selected_dialog")
 		
 #	CONNECTIONS
 	chapter_list.connect("item_selected",self,"selected_chapter")
@@ -133,9 +138,9 @@ func _ready():
 	text_list_up.connect("pressed",self,"moveText", [0])
 	text_list_down.connect("pressed",self,"moveText", [1])
 	
-	textButtons.connect("button_selected",self, "selectedTextButtons")
+	textButtons.connect("pressed",self, "selectedTextButtons", [0])
 	
-	connect("modal_close", self,"quit")
+	connect("modal_closed", self,"quit")
 	
 	timer = Timer.new()
 	timer.set_wait_time(0.01)
@@ -301,7 +306,6 @@ func get_texts(dialog):
 		text_list.add_item(tempName)
 	if !text_list.is_connected("item_selected", self, "selected_text"):
 		text_list.connect("item_selected", self, "selected_text")
-	pass
 
 func selected_text(selected):
 	currentText = selected
@@ -543,7 +547,6 @@ func manageQuestionOptions(value):
 			print("ARRAY WITH ANSWERS: ",contents[currentChapter][currentDialog][currentText].answers)
 
 func _exit_tree():
-	
 	pass
 
 ###################################
