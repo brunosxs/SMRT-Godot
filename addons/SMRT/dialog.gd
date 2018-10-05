@@ -260,8 +260,12 @@ func show_text(chapter, dialog, start_at = 0):
 			side = dialog_array[start_at].face_position
 	
 			face.show()
-		texture_width = face.frames.get_frame(face.animation, int(dialog_array[start_at].face_frame)).get_width()
-		texture_height = face.frames.get_frame(face.animation, int(dialog_array[start_at].face_frame)).get_height()
+		if dialog_array[start_at].face_frame == null:
+			texture_width = 0
+			texture_height = 0
+		else:	
+			texture_width = face.frames.get_frame(face.animation, int(dialog_array[start_at].face_frame)).get_width()
+			texture_height = face.frames.get_frame(face.animation, int(dialog_array[start_at].face_frame)).get_height()
 #		Side of the dialog to display the face
 #		RESETING THE DIALOG	
 		text = parser(dialog_array[start_at].text)

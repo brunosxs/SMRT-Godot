@@ -1136,7 +1136,6 @@ align = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/GridContainer/Typewriter/VBoxContainer" index="1"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -1437,7 +1436,6 @@ align = 0
 
 [node name="question" type="PanelContainer" parent="VBoxContainer" index="5"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -1514,7 +1512,6 @@ alignment = 0
 
 [node name="Option" type="VBoxContainer" parent="VBoxContainer/question/VBoxContainer/GridContainer" index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0

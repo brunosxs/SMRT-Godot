@@ -187,7 +187,7 @@ func load_file():
 			get_chapters()
 			dialog_list.clear()
 			messages.set_text(messages_db["File loaded successfully"][0])
-			messages.set("custom_colors/font_color", messages_db["File loaded successfully"][1])
+			messages.set("font_color", messages_db["File loaded successfully"][1])
 
 func quit():
 	save_file(contents)
@@ -206,11 +206,11 @@ func save_file(content):
 	if file.open(language_file, file.WRITE) == OK:
 		file.store_string(JSON.print(content))
 		messages.set_text(messages_db["File saved successfully"][0])
-		messages.set("custom_colors/font_color", messages_db["File saved successfully"][1])
+		messages.set("font_color", messages_db["File saved successfully"][1])
 		file.close()
 	else:
 		messages.set_text(messages_db["Save Error"][0])
-		messages.set("custom_colors/font_color", messages_db["Save Error"][1])
+		messages.set("font_color", messages_db["Save Error"][1])
 
 
 func get_chapters():
@@ -565,20 +565,20 @@ func agregate(text_id):
 	text_list.set_item_text(currentText, text.text.substr(0,25))
 	text.frame_position  = frame_position.get_selected()
 	text.face_position = face_position.get_selected()
-	text.face_frame = face_frame.get("range/value")
+	text.face_frame = face_frame.get("value")
 	
-	text.typewriter = typewriter.get("is_pressed")
-	text.typewriter_speed = typewriter_speed.get("range/value")
-	text.beep = beep.get("is_pressed")
+	text.typewriter = typewriter.get("pressed")
+	text.typewriter_speed = typewriter_speed.get("value")
+	text.beep = beep.get("pressed")
 	
-	text.beep_pitch = beep_pitch.get("range/value")
+	text.beep_pitch = beep_pitch.get("value")
 	text.text = textEditor.get_text()
-	text.enable_question = enableQuestion.get("is_pressed")
+	text.enable_question = enableQuestion.get("pressed")
 	
-	if enableQuestion.get("is_pressed"):
+	if enableQuestion.get("pressed"):
 		text.answers.resize(choicesNumber.get_value())
 		for i in range(choicesNumber.get_value()):
-			text.answers[i] = options.get_child(i).get_node("text").get_text()
+			text.answers[i] = options.get_child(i).find_node("LineEdit").get_text()
 	else:
 		text.answers = []
 
@@ -586,30 +586,30 @@ func populate(text_id):
 #	Gives the editor items the respective values based on the save
 	frame_position.select(contents[currentChapter][currentDialog][text_id].frame_position)
 	face_position.select(contents[currentChapter][currentDialog][text_id].face_position)
-	face_frame.set("range/value", contents[currentChapter][currentDialog][text_id].face_frame)
-	typewriter.set("is_pressed", contents[currentChapter][currentDialog][text_id].typewriter)
-	typewriter_speed.set("range/value", contents[currentChapter][currentDialog][text_id].typewriter_speed)
-	beep.set("is_pressed", contents[currentChapter][currentDialog][text_id].beep)
-	beep_pitch.set("range/value", contents[currentChapter][currentDialog][text_id].beep_pitch)
+	face_frame.set("value", contents[currentChapter][currentDialog][text_id].face_frame)
+	typewriter.set("pressed", contents[currentChapter][currentDialog][text_id].typewriter)
+	typewriter_speed.set("value", contents[currentChapter][currentDialog][text_id].typewriter_speed)
+	beep.set("pressed", contents[currentChapter][currentDialog][text_id].beep)
+	beep_pitch.set("value", contents[currentChapter][currentDialog][text_id].beep_pitch)
 	
 	
 	
 	textEditor.set_text(contents[currentChapter][currentDialog][text_id].text)
 	
-	enableQuestion.set("is_pressed", contents[currentChapter][currentDialog][text_id].enable_question)
+	enableQuestion.set("pressed", contents[currentChapter][currentDialog][text_id].enable_question)
 	
 	answers = contents[currentChapter][currentDialog][text_id].answers
-	choicesNumber.set("range/value", answers.size())
+	choicesNumber.set("value", answers.size())
 	print("setting answers size")
-	if choicesNumber.get("range/value") == 0:
-		enableQuestion.set("is_pressed", false)
-	for i in range(options.get_child_count()):
-		print("cleaning option ", i)
-		options.get_child(i).get_node("text").set_text("")
-	if enableQuestion.get("is_pressed") and typeof(answers) == TYPE_ARRAY:
+	if choicesNumber.get("value") == 0:
+		enableQuestion.set("pressed", false)
+	for i in options.get_children():
+		print("cleaning option ", i.get_index())
+		i.find_node("LineEdit").set_text("")
+	if enableQuestion.get("pressed") and typeof(answers) == TYPE_ARRAY:
 		for i in range(answers.size()):
 			print("setting option ", i)
-			options.get_child(i).get_node("text").set_text(answers[i])
+			options.get_child(i).find_node("LineEdit").set_text(answers[i])
 
 
 func selectedTextButtons(btn_index):
