@@ -179,13 +179,14 @@ func load_file():
 	language_file = yield(selector,"file_selected")
 	var file = File.new()
 	if file.open(language_file,file.READ) == OK:
+		print("test 1")
 		#this means it sucesfully opened
 		var dictionary = {}
-		if JSON.parse(file.get_as_text()) == OK:
-			dictionary = JSON.parse(file.get_as_text())
+		if JSON.parse(file.get_as_text()):
+			print("test 2")
+			dictionary = JSON.parse(file.get_as_text()).result
 			contents = dictionary
 			get_chapters()
-			dialog_list.clear()
 			messages.set_text(messages_db["File loaded successfully"][0])
 			messages.set("font_color", messages_db["File loaded successfully"][1])
 
