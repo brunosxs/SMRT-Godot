@@ -8,6 +8,7 @@ export (bool) var is_player
 var can_talk = true
 var area
 onready var SMRT = get_parent().get_node("CanvasLayer/dialog")
+var speed = 5
 func _ready():
 	area = get_node("Area2D")
 	area.connect("body_entered", self, "contact")
@@ -16,18 +17,17 @@ func _ready():
 
 func _physics_process(delta):
 	if is_player:
-		if Input.is_action_pressed("player_right"):
-			position = (Vector2(get_pos().x + 1, get_pos().y))
-		elif Input.is_action_pressed("player_left"):
-			position = (Vector2(get_pos().x - 1, get_pos().y))
-		elif Input.is_action_pressed("player_up"):
-			position = (Vector2(get_pos().x, get_pos().y-1))
-		elif Input.is_action_pressed("player_down"):
-			position = (Vector2(get_pos().x, get_pos().y+1))
+		if Input.is_action_pressed("ui_right"):
+			position.x +=speed
+		if Input.is_action_pressed("ui_left"):
+			position.x -=speed
+		if Input.is_action_pressed("ui_up"):
+			position.y -=speed
+		if Input.is_action_pressed("ui_down"):
+			position.y +=speed
 	
 
 func contact(body):
-	print("STARTED!")
 	if body is load("res://examples/interact/character.gd"):
 		if is_player and can_talk and not body.is_player: # Check if body.is_player so the dialog won't start with the char player itself.
 			can_talk = false

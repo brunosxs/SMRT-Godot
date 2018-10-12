@@ -208,7 +208,7 @@ func show_text(chapter, dialog, start_at = 0):
 			else: 
 				yield(get_tree(),"idle_frame") # fix for signal not registering at the same loop
 				if show_debug_messages:
-					print("dialog doesn't exist")
+					print("dialog ", dialog, " doesn't exist")
 				emit_signal("finished")
 				return
 	if show_debug_messages:
@@ -263,9 +263,10 @@ func show_text(chapter, dialog, start_at = 0):
 		if dialog_array[start_at].face_frame == null:
 			texture_width = 0
 			texture_height = 0
-		else:	
-			texture_width = face.frames.get_frame(face.animation, int(dialog_array[start_at].face_frame)).get_width()
-			texture_height = face.frames.get_frame(face.animation, int(dialog_array[start_at].face_frame)).get_height()
+		else:
+			print("CURRENT FRAME IS ", dialog_array[start_at].face_frame)
+			texture_width = face.frames.get_frame("default", int(dialog_array[start_at].face_frame)).get_width()
+			texture_height = face.frames.get_frame("default", int(dialog_array[start_at].face_frame)).get_height()
 #		Side of the dialog to display the face
 #		RESETING THE DIALOG	
 		text = parser(dialog_array[start_at].text)
