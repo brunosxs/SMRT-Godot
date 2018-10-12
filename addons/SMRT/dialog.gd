@@ -289,7 +289,7 @@ func show_text(chapter, dialog, start_at = 0):
 #		to make the effect disapear.
 		else:
 			pass
-#			audio.play("beep_letter")
+			audio.play()
 		
 		
 		rect_size = (Vector2(screen_res.x,screen_res.y/dialog_frame_height))
@@ -338,12 +338,12 @@ func show_text(chapter, dialog, start_at = 0):
 				textObj.set_visible_characters(textObj.get_total_character_count())
 			#Play beep sound for each character
 			if beep:
-#				audio.set_default_pitch_scale(beep_pitch)
-#				audio.play("beep_letter")
-#				if show_debug_messages:
-#					print("Playing beep")
-#				#audio.set_param(1,old_beep_pitch)
-				pass
+				audio.stream = beep_WAV
+				audio.pitch_scale = beep_pitch
+				audio.play()
+
+				if show_debug_messages:
+					print("Playing beep")
 			textObj.visible_characters = textObj.visible_characters + 1
 			timer.wait_time = speed
 			timer.start()
