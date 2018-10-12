@@ -241,6 +241,7 @@ func chapter_options(btn_index):
 		print("Renaming Chapter")
 		if currentChapter != null or currentChapter !="":
 			var input = input_tscn.instance()
+			input.set_text(currentChapter)
 			add_child(input)
 			input.label.set_text("Rename the chapter")
 			rename_chapter(currentChapter, yield(input,"text"))
@@ -389,6 +390,7 @@ func dialog_options(btn_index):
 			if currentDialog != null or currentDialog !="":
 				var input = input_tscn.instance()
 				add_child(input)
+				input.set_text(currentDialog)
 				input.label.set_text("Rename the dialog")
 				rename_dialog(currentDialog, yield(input,"text"))
 				get_dialogs(currentChapter)
@@ -445,7 +447,6 @@ func remove_dialog(name):
 	text_list.clear()
 
 func rename_dialog(old_name, name):
-	print("let's rock!")
 	if name != "" or name != null or name != "cancel_error":
 		print("For now it is ok")
 		print(contents[currentChapter].keys())

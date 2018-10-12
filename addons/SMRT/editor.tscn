@@ -7,7 +7,7 @@
 resource_local_to_scene = true
 _sections_unfolded = [ "Resource" ]
 
-[node name="WindowDialog" type="WindowDialog"]
+[node name="WindowDialog" type="WindowDialog" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0

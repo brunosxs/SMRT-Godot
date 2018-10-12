@@ -59,7 +59,8 @@ func btn_pressed():
 	hide()
 	queue_free()
 
-
+func set_text(text):
+	input.text = text
 
 func prepare_and_send(text):
 	text = str(input.get_text())
