@@ -260,7 +260,7 @@ func show_text(chapter, dialog, start_at = 0):
 			side = dialog_array[start_at].face_position
 	
 			face.show()
-		if dialog_array[start_at].face_frame == null:
+		if dialog_array[start_at].face_frame == null and dialog_array[start_at].face_frame <= face.frames.get_frame_count():
 			texture_width = 0
 			texture_height = 0
 		else:

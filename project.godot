@@ -11,7 +11,7 @@ config_version=3
 [application]
 
 config/name="SMRT 3.0"
-run/main_scene="res://addons/SMRT/editor.tscn"
+run/main_scene="res://examples/interact/example.tscn"
 config/icon="res://icon.png"
 
 [editor_plugins]
