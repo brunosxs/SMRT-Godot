@@ -28,7 +28,7 @@ func _physics_process(delta):
 	
 
 func contact(body):
-	if body is load("res://examples/interact/character.gd"):
+	if body is get_script():
 		if is_player and can_talk and not body.is_player: # Check if body.is_player so the dialog won't start with the char player itself.
 			can_talk = false
 			print("NAME OF THE BODY: ",body.get_name())
