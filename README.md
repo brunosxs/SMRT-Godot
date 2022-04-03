@@ -1,7 +1,14 @@
+# ATENTION: SMRT-Godot has been abandoned
+
+I have no time nor desire to keep supporting this extension so please, don't use it as it may not even work correctly when you find it.
+I suggest using the awesome [dialogic](https://github.com/coppolaemilio/dialogic).
+
+The old REAME will be kept but this repo will be archived.
+----------
+
 Consider making a donation to support my work:
 
 [![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=E8MZDXACW43A2)
-
 
 # SMRT-Godot
 
